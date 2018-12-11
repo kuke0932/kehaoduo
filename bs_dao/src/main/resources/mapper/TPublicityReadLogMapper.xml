@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.bs.mapper.TPublicityReadLogMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.bs.po.TPublicityReadLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="publicity_id" jdbcType="INTEGER" property="publicityId"/>
+        <result column="from_web_user_id" jdbcType="INTEGER" property="fromWebUserId"/>
+        <result column="from_open_id" jdbcType="VARCHAR" property="fromOpenId"/>
+        <result column="reader_open_id" jdbcType="VARCHAR" property="readerOpenId"/>
+        <result column="is_valid" jdbcType="TINYINT" property="isValid"/>
+        <result column="read_time" jdbcType="TIMESTAMP" property="readTime"/>
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, publicity_id, from_web_user_id, from_open_id, reader_open_id, is_valid, read_time, logical_del,
+        create_by, create_name, create_time, update_by, update_name, update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_publicity_read_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="countPublicityId" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_publicity_read_log
+        WHERE publicity_id = #{publicityId} AND reader_open_id = #{readerOpenId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_publicity_read_log
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.htcs.kehaoduo.bs.po.TPublicityReadLog">
+        insert into t_publicity_read_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="publicityId != null">
+                publicity_id,
+            </if>
+            <if test="fromWebUserId != null">
+                from_web_user_id,
+            </if>
+            <if test="fromOpenId != null">
+                from_open_id,
+            </if>
+            <if test="readerOpenId != null">
+                reader_open_id,
+            </if>
+            <if test="isValid != null">
+                is_valid,
+            </if>
+            <if test="readTime != null">
+                read_time,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="publicityId != null">
+                #{publicityId,jdbcType=INTEGER},
+            </if>
+            <if test="fromWebUserId != null">
+                #{fromWebUserId,jdbcType=INTEGER},
+            </if>
+            <if test="fromOpenId != null">
+                #{fromOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="readerOpenId != null">
+                #{readerOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                #{isValid,jdbcType=TINYINT},
+            </if>
+            <if test="readTime != null">
+                #{readTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.bs.po.TPublicityReadLog">
+        update t_publicity_read_log
+        <set>
+            <if test="publicityId != null">
+                publicity_id = #{publicityId,jdbcType=INTEGER},
+            </if>
+            <if test="fromWebUserId != null">
+                from_web_user_id = #{fromWebUserId,jdbcType=INTEGER},
+            </if>
+            <if test="fromOpenId != null">
+                from_open_id = #{fromOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="readerOpenId != null">
+                reader_open_id = #{readerOpenId,jdbcType=VARCHAR},
+            </if>
+            <if test="isValid != null">
+                is_valid = #{isValid,jdbcType=TINYINT},
+            </if>
+            <if test="readTime != null">
+                read_time = #{readTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysRoleUserMapper">
+    <sql id="sys_role_user_column">
+		SYS_ROLE_USER.USER_ID,
+		SYS_ROLE_USER.ROLE_ID
+	</sql>
+    <sql id="sys_role_user_property">
+		#{userId},
+		#{roleId}
+	</sql>
+    <sql id="sys_user_column">
+		SYS_USER.ID,
+		SYS_USER.LOGIN_NAME,
+		SYS_USER.LOGIN_PWD,
+		SYS_USER.USER_NAME,
+		SYS_USER.STATUS,
+		SYS_USER.LAST_LOGIN_TIME,
+		SYS_USER.LAST_LOGIN_IP,
+		SYS_USER.EMAIL,
+		SYS_USER.TELEPHONE
+	</sql>
+    <resultMap type="com.htcs.kehaoduo.system.bean.SysRoleUserModel" id="SysRoleUserResult">
+        <result property="userId" column="USER_ID"/>
+        <result property="roleId" column="ROLE_ID"/>
+        <result property="id" column="ID"/>
+        <result property="loginName" column="LOGIN_NAME"/>
+    </resultMap>
+
+    <resultMap type="com.htcs.kehaoduo.system.bean.SysUser" id="SysUserResult">
+        <result property="id" column="ID"/>
+        <result property="loginName" column="LOGIN_NAME"/>
+        <result property="loginPwd" column="LOGIN_PWD"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="status" column="STATUS"/>
+        <result property="lastLoginTime" column="LAST_LOGIN_TIME"/>
+        <result property="lastLoginIp" column="LAST_LOGIN_IP"/>
+        <result property="email" column="EMAIL"/>
+        <result property="telephone" column="TELEPHONE"/>
+    </resultMap>
+
+    <!-- 分页查询用户列表 ，开始 -->
+    <select id="findSysUserListByRole" parameterType="com.htcs.kehaoduo.system.bean.SysRoleUserModel"
+            resultMap="SysUserResult">
+        SELECT
+        <include refid="sys_user_column"/>
+        FROM SYS_USER
+        <where>
+            SYS_USER.USER_ID IN (
+            SELECT USER_ID FROM SYS_ROLE_USER WHERE ROLE_ID=#{roleId}
+            )
+            <if test="logicalDel!=null">
+                AND SYS_USER.LOGICAL_DEL = #{logicalDel}
+            </if>
+            <if test="loginName!=null and loginName!=''">
+                AND <![CDATA[ SYS_USER.LOGIN_NAME like CONCAT('%',#{loginName},'%') ]]>
+            </if>
+        </where>
+    </select>
+
+    <select id="listByRoleId" parameterType="com.htcs.kehaoduo.system.bean.SysRoleUserModel" resultMap="SysUserResult">
+        SELECT
+        <include refid="sys_user_column"/>
+        FROM SYS_USER
+        <where>
+            SYS_USER.USER_ID NOT IN (
+            SELECT USER_ID FROM SYS_ROLE_USER WHERE ROLE_ID = #{roleId}
+            )
+            <if test="logicalDel!=null">
+                AND SYS_USER.LOGICAL_DEL = #{logicalDel}
+            </if>
+            <if test="loginName!=null and loginName!=''">
+                AND <![CDATA[ SYS_USER.LOGIN_NAME like CONCAT('%',#{loginName},'%') ]]>
+            </if>
+        </where>
+    </select>
+
+    <!-- 添加角色用户关系 -->
+    <insert id="addRoleUser" parameterType="com.htcs.kehaoduo.system.bean.SysRoleUser" useGeneratedKeys="true"
+            keyColumn="ID" keyProperty="id">
+        INSERT INTO SYS_ROLE_USER(
+        <include refid="sys_role_user_column"/>
+        )
+        VALUE(
+        <include refid="sys_role_user_property"/>
+        )
+    </insert>
+    <!-- 根据ID，查询用户信息 -->
+    <select id="deleteRoleUser" parameterType="com.htcs.kehaoduo.system.bean.SysRoleUser">
+		DELETE FROM SYS_ROLE_USER WHERE SYS_ROLE_USER.USER_ID=#{userId} AND SYS_ROLE_USER.ROLE_ID=#{roleId} 
+	</select>
+</mapper>

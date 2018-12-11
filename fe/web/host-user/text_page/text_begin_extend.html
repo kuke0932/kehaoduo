@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>开始推广</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <link rel="stylesheet" href="../resources/css/begin_extend.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">开始推广</h4>
+</header>
+<!--主体部分-->
+<div class="container" v-cloak>
+    <div class="weui-panel__bd">
+        <div class="weui-media-box weui-media-box_appmsg begin_warn">
+            <div class="warn_img">
+                <div class="mask" @click="refreshQrCodeUrl">
+                    <p>当前二维码已过期，点击刷新</p>
+                </div>
+                <img class="weui-media-box__thumb" :src="map.qrCodeUrl">
+            </div>
+            <div class="weui-media-box__bd warn_content">
+                <h4 style="color:#f00;"><img class="icon_img" src="../resources/images/icon/warn.svg" alt=""> 重要提示:</h4>
+                <p>
+                    扫描二维码，并且点击确认登录网页版微信后，您将向您的{{map.publicity.type}}群发送一条信息；信息内容由提供二维码的商家指定，其中可能包含广告推广内容；请您仔细阅读此提示后，再进行操作。如您想终止发送，在微信顶部点击退出登录即可。</p>
+            </div>
+        </div>
+    </div>
+    <h5 class="little_tip" style="color:#f00;">您即将发送的信息内容为：</h5>
+    <div class="weui-panel__bd extend_content">
+        <div>
+            <div class="weui-media-box__bd">
+                <p class="text_content">
+                    {{map.publicity.content}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/text_page/text_begin_extend.js"></script>
+</body>
+</html>

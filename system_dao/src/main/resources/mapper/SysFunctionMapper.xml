@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysFunctionMapper">
+    <sql id="sys_function_column">
+		SYS_FUNCTION.ID,
+		SYS_FUNCTION.PARENT_ID,
+		SYS_FUNCTION.FUNCTION_NAME,
+		SYS_FUNCTION.FUNCTION_URL,
+		SYS_FUNCTION.FUNCTION_TYPE,
+		SYS_FUNCTION.FUNCTION_SORT,
+		SYS_FUNCTION.CLICK_FUNCTION,
+		SYS_FUNCTION.BUTTON_STYLE,
+		SYS_FUNCTION.ICON_STYLE,
+		SYS_FUNCTION.IS_VISIBLE
+	</sql>
+    <sql id="sys_function_property">
+		#{id},
+		#{parentId},
+		#{functionName},
+		#{functionUrl},
+		#{functionType},
+		#{functionSort},
+		#{clickFunction},
+		#{buttonStyle},
+		#{iconStyle},
+		#{isVisible}
+	</sql>
+
+    <resultMap type="com.htcs.kehaoduo.system.bean.SysFunction" id="SysFunctionResult">
+        <result property="id" column="ID"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="functionName" column="FUNCTION_NAME"/>
+        <result property="functionUrl" column="FUNCTION_URL"/>
+        <result property="functionType" column="FUNCTION_TYPE"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="functionSort" column="FUNCTION_SORT"/>
+        <result property="logicalDel" column="LOGICAL_DEL"/>
+        <result property="clickFunction" column="CLICK_FUNCTION"/>
+        <result property="buttonStyle" column="BUTTON_STYLE"/>
+        <result property="iconStyle" column="ICON_STYLE"/>
+        <result property="isVisible" column="IS_VISIBLE"/>
+    </resultMap>
+
+    <!-- 添加菜单 -->
+    <insert id="createSysFunction" parameterType="com.htcs.kehaoduo.system.bean.SysFunction"
+            useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+        INSERT INTO SYS_FUNCTION(
+        <include refid="sys_function_column"/>
+        )
+        VALUE(
+        <include refid="sys_function_property"/>
+        )
+    </insert>
+
+    <!-- 修改菜单 -->
+    <update id="updateSysFunction" parameterType="com.htcs.kehaoduo.system.bean.SysFunction">
+		UPDATE SYS_FUNCTION SET
+		SYS_FUNCTION.PARENT_ID=#{parentId},
+		SYS_FUNCTION.FUNCTION_NAME=#{functionName},
+		SYS_FUNCTION.FUNCTION_URL=#{functionUrl},
+		SYS_FUNCTION.FUNCTION_TYPE=#{functionType},
+		SYS_FUNCTION.FUNCTION_SORT=#{functionSort},
+		SYS_FUNCTION.CLICK_FUNCTION=#{clickFunction},
+		SYS_FUNCTION.BUTTON_STYLE=#{buttonStyle},
+		SYS_FUNCTION.ICON_STYLE=#{iconStyle},
+		SYS_FUNCTION.IS_VISIBLE=#{isVisible}
+		WHERE
+		SYS_FUNCTION.ID=#{id}  
+	</update>
+
+
+    <!-- 根据ID，查询菜单信息 -->
+    <select id="querySysFunctionByFunctionId" parameterType="int" resultMap="SysFunctionResult">
+        SELECT
+        <include refid="sys_function_column"/>
+        FROM SYS_FUNCTION
+        <where>
+            SYS_FUNCTION.ID=#{value}
+        </where>
+    </select>
+
+
+    <!-- 查询菜单列表 ，开始 -->
+    <select id="findAllSysFunction" parameterType="com.htcs.kehaoduo.system.bean.SysFunction"
+            resultMap="SysFunctionResult">
+        SELECT
+        <include refid="sys_function_column"/>
+        FROM SYS_FUNCTION
+        <where>
+            <if test="logicalDel!=null">
+                AND SYS_FUNCTION.LOGICAL_DEL = #{logicalDel}
+            </if>
+        </where>
+        ORDER BY SYS_FUNCTION.FUNCTION_SORT,SYS_FUNCTION.FUNCTION_NAME
+    </select>
+
+
+    <!-- 获取子菜单列表 ，开始 -->
+    <select id="findFunctionByParentId" parameterType="int" resultMap="SysFunctionResult">
+        SELECT
+        <include refid="sys_function_column"/>
+        FROM SYS_FUNCTION
+        <where>
+            AND SYS_FUNCTION.PARENT_ID = #{value}
+        </where>
+        ORDER BY SYS_FUNCTION.FUNCTION_SORT,SYS_FUNCTION.FUNCTION_NAME
+    </select>
+
+
+    <!-- 根据ID，删除菜单信息 -->
+    <select id="delSysFunctionByFunctionId" parameterType="int">
+        DELETE FROM SYS_FUNCTION
+        <where>
+            SYS_FUNCTION.ID=#{value}
+        </where>
+    </select>
+
+    <!-- 逻辑删除 -->
+    <update id="logicalDeleteFunctionById" parameterType="com.htcs.kehaoduo.system.bean.SysFunction">
+        UPDATE SYS_FUNCTION SET
+        SYS_FUNCTION.LOGICAL_DEL=#{logicalDel}
+        <where>
+            SYS_FUNCTION.ID=#{id}
+        </where>
+    </update>
+
+    <!-- 根据橘色列表获取功能列表 -->
+    <select id="findFunctionListByRoleList" parameterType="java.util.List" resultMap="SysFunctionResult">
+        SELECT
+        <include refid="sys_function_column"/>
+        FROM SYS_FUNCTION
+        <where>
+            SYS_FUNCTION.ID IN(
+            SELECT SYS_ROLE_FUNCTION.FUNCTION_ID FROM SYS_ROLE_FUNCTION
+            <where>
+                SYS_ROLE_FUNCTION.ROLE_ID IN
+                <foreach collection="list" item="item" open="(" close=")" separator=",">
+                    #{item.id}
+                </foreach>
+            </where>
+            )
+        </where>
+        ORDER BY SYS_FUNCTION.FUNCTION_SORT,SYS_FUNCTION.FUNCTION_NAME
+    </select>
+</mapper>

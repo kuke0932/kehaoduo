@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我的店铺</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <style>
+        .change {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            color: #fff;
+        }
+
+        .my_shop .weui-cells__title {
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div id="mineShop">
+    <header class="other_header">
+        <a href="javascript:;" class="back_btn" @click="back()"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+        <h4 class="obj_title">我的店铺</h4>
+        <a href="javascript:;" @click="edit()" class="change">{{btnName}}</a>
+    </header>
+    <!--主体部分-->
+    <form class="container my_shop" v-cloak id="form">
+        <div class="weui-cells weui-cells_form">
+            <input type="hidden" v-model="shop.id" name="id">
+            <div class="weui-cells__title">店铺名称:</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" name="shopName" type="text" placeholder="请输入店铺名称" required :readonly="!editable"
+                               v-model="shop.shopName">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cells__title">经营类型:</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input id="businessLinePicker" name="businessLineCodes" class="weui-input" type="text" readonly
+                               placeholder="请选择经营类型"
+                               required v-model="shop.businessLineCodes">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cells__title">店铺地址:</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input id="distPicker" name="addressCodes" readonly class="weui-input" placeholder="请选择经营地址"
+                               required v-model="shop.addressCodes">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="/static/js/district.js"></script>
+<script src="/static/js/businessLine.js"></script>
+<script>
+
+    var mineShop;
+
+    $(function () {
+
+        mineShop = new Vue({
+            el: '#mineShop',
+            data: {
+                editable: false,
+                btnName: '修改',
+                shop: {}
+            },
+            mounted: function () {
+                var that = this;
+                $.ajax({
+                    url: '/bs/shop/queryShopByUserId',
+                }).done(function (data) {
+                    that.shop = data.data;
+                });
+            },
+            methods: {
+                back: function () {
+                    if(this.editable) {
+                        weui.confirm('您尚未保存，确定离开此页面吗？', {
+                            title: '返回',
+                            buttons: [{
+                                label: '离开页面',
+                                type: 'default',
+                                onClick: function () {
+                                    window.location.href = "../mine_page.html";
+                                }
+                            }, {
+                                label: '留在页面',
+                                type: 'primary',
+                                onClick: function () {
+                                    return;
+                                }
+                            }]
+                        });
+                    } else {
+                        window.location.href = "../mine_page.html";
+                    }
+
+                },
+                edit: function () {
+                    if (this.editable == false) {
+                        this.editable = true;
+                        this.btnName = '完成';
+                        $('#distPicker').bind('click', distPickerCallback);
+                        $('#businessLinePicker').bind('click', businessLinePickerCallback);
+                    } else {
+                        this.editable = false;
+                        this.btnName = '修改';
+                        $('#distPicker').unbind('click', distPickerCallback);
+                        $('#businessLinePicker').unbind('click', businessLinePickerCallback);
+                        $.ajax({
+                            url: '/bs/shop/updateShop',
+                            method: 'post',
+                            data: $('#form').serialize()
+
+                        }).done(function (data) {
+                            weui.toast('修改成功！', {
+                                duration: 1000,
+                                callback: function () {
+                                    //location.href = "../register/register_second.html";
+                                }
+                            });
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+    function distPickerCallback(th) {
+        weui.picker(allDistrict, {
+            container: 'body',
+            defaultValue: $("#distPicker").val().split(','),
+            onConfirm: function (result) {
+                mineShop.shop.addressCodes = result[0].label + ',' + result[1].label + ',' + result[2].label;
+            },
+            id: 'distPicker'
+        });
+    }
+
+    function businessLinePickerCallback() {
+        weui.picker(businessLine, {
+            container: 'body',
+            defaultValue: $("#businessLinePicker").val().split(','),
+            onConfirm: function (result) {
+                mineShop.shop.businessLineCodes = result[0].label;
+            },
+            id: 'businessLinePicker'
+        });
+    }
+
+
+</script>
+</body>
+</html>

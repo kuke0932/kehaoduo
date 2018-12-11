@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商家宝</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="resources/css/mystyle.css">
+</head>
+<body>
+<header>
+    <img class="logo" src="../login/resources/images/khd.png" alt="">
+</header>
+<div class="container">
+    <div id="form" class="weui-cells weui-cells_form phone_key">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label"><img src="resources/images/icon/phone.svg" alt=""></label>
+            </div>
+            <div class="weui-cell__bd">
+                <input id="mobile" class="weui-input" type="tel" placeholder="请输入您的手机号" required>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <label class="weui-label"><img src="resources/images/icon/lock.svg" alt=""></label>
+            </div>
+            <div class="weui-cell__bd">
+                <input id="password" class="weui-input" type="password" placeholder="请输入您的密码" required>
+            </div>
+        </div>
+    </div>
+    <div class="weui-flex login_register">
+        <div class="weui-flex__item"><a href="javascript:;" onclick="login()"
+                                        class="weui-btn weui-btn_warn  login_btn">登录</a></div>
+    </div>
+    <div class="bottom_info">
+        <a class="forget_password" href="javascript:;" onclick="forgotPassword()">忘记密码？</a>
+        <a class="new_register" href="javascript:;" onclick="register()">新用户注册</a>
+    </div>
+
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script type="text/javascript">
+
+    $('.back_btn').click(function () {
+        history.go(-1);
+    })
+
+    var nickName = localStorage.getItem('nickName');
+    var openidA = localStorage.getItem('openidA');
+    var headImgUrl = localStorage.getItem('headImgUrl');
+    var unionid = localStorage.getItem('unionid');
+
+    function login() {
+
+        var phn = $('#mobile').val();
+        var pwd = $('#password').val();
+        var reg = /(13\d|14[579]|15[^4\D]|17[^49\D]|18\d)\d{8}/;
+        if (!phn) {
+            weui.alert('手机号不能为空')
+            return;
+        }
+        if (!reg.test(phn)) {
+            weui.alert('请输入正确手机号')
+            return;
+        }
+        if (!pwd) {
+            weui.alert('密码不能为空')
+            return;
+        }
+
+        var loading = weui.loading('登录中...');
+        $.ajax({
+            url: '/system/web/login',
+            data: {
+                mobile: $('#mobile').val(),
+                password: $('#password').val(),
+                nickName: nickName == null ? '' : nickName,
+                headImgUrl: headImgUrl == null ? '' : headImgUrl,
+                openidA: openidA == null ? '' : openidA,
+                unionid: unionid == null ? '' : unionid
+            },
+            method: 'post'
+        }).done(function (data) {
+            localStorage.setItem("userId", data.data.userId);
+            localStorage.setItem("x-auth-token", data.data.token);
+            localStorage.setItem("_site", data.data.site);
+            $.ajax({
+                url: '/bs/shop/queryShopByUserId',
+            }).done(function (data) {
+                if (data.data == null || data.data == 'null') {
+                    loading.hide();
+                    weui.toast('登录成功！您尚未注册店铺，即将跳转到店铺注册页面...', {
+                        duration: 1000,
+                        callback: function () {
+                            location.href = "../register/register_second.html";
+                        }
+                    });
+                } else {
+                    loading.hide();
+                    weui.toast('登录成功！', {
+                        duration: 1000,
+                        callback: function () {
+                            location.href = "../host-user/text_page.html";
+                        }
+                    });
+                }
+            });
+
+        }).fail(function () {
+            loading.hide();
+        });
+        var phn = $('#mobile').val();
+        var pwd = $('#password').val();
+    }
+
+    function del_space(str) { //删除左右两端的空格
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+    function register() {
+        location.href = "../register/register_first.html"
+    }
+
+    function forgotPassword() {
+        location.href = "forget_password.html"
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商家宝</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .filter {
+            top: 45px;
+            position: fixed;
+            height: 30px;
+            z-index: 30;
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        .filter .weui-navbar__item {
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .weui-pull-to-refresh {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="mySubmitted">
+    <header class="other_header">
+        <a href="javascript:;" class="back_btn" onclick="history.go(-1)"><img class="icon_img"
+                                                                              src="../resources/images/icon/back.svg"
+                                                                              alt="">返回</a>
+        <h4 class="obj_title">我提交的审核</h4>
+    </header>
+    <div class="filter">
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item" @click="filterCheckStatus">
+                    审核状态：<span id="checkStatus">全部</span><img src="../resources/images/icon/arrow_down.svg">
+                </div>
+                <div class="weui-navbar__item" @click="filterPublicityAndContentType">
+                    分类：<span id="publicityAndContentType">全部</span>
+                    <img src="../resources/images/icon/arrow_down.svg" width="16" height="16">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--主体部分-->
+    <div class="container weui-pull-to-refresh">
+        <template v-if="total != -1">
+            <div class="weui-pull-to-refresh__layer">
+                <div class='weui-pull-to-refresh__arrow'></div>
+                <div class='weui-pull-to-refresh__preloader'></div>
+                <div class="down">下拉刷新</div>
+                <div class="up">释放刷新</div>
+                <div class="refresh">正在刷新</div>
+            </div>
+            <div v-if="total == 0">
+                <div class="weui-loadmore weui-loadmore_line">
+                    <span class="weui-loadmore__tips">暂无数据</span>
+                </div>
+            </div>
+            <div v-cloak v-else class="weui-tab__bd-item weui-tab__bd-item--active">
+                <div class="word_panel">
+                    <div class="weui-panel__bd" v-for="(publicity,index) in listPublicity">
+                        <div class="header_infor">
+                            <p style="font-size: 14px;font-weight:bold">
+                                {{publicity.publicityTitle}}({{publicity.publicityAndContentType}})</p>
+                            <span>生成时间: {{publicity.createTime | time}}</span><span>审核状态: <span
+                                :class="{red: publicity.checkStatus == 4, green: publicity.checkStatus == 3}">{{publicity.checkStatusText}}</span></span>
+                        </div>
+
+                        <hr>
+                        <template v-if="publicity.publicityType == 1 && publicity.contentType == 1">
+                            <div class="weui-media-box weui-media-box_appmsg">
+                                <div class="weui-media-box__bd">
+                                    <p class="weui-media-box__desc text_content">
+                                        {{publicity.content}}
+                                    </p>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-if="publicity.publicityType == 1 && publicity.contentType == 2">
+                            <div @click="showAll(publicity.id, 1, 2)"
+                               class="weui-media-box weui-media-box_appmsg showAll"
+                               :data-id="publicity.id">
+                                <div>
+                                    <p>
+                                        {{publicity.publicityIntro}}
+                                    </p>
+                                    <a :href="'img_page/img_view_full.html?id='+publicity.id">详情请点击: {{publicity.staticUrl}}</a>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-if="publicity.publicityType == 2 && publicity.contentType == 2">
+                            <a href="javascript:void(0);" @click="showAll(publicity.id, 2, 2)"
+                               class="weui-media-box weui-media-box_appmsg showAll" :data-id="publicity.id">
+                                <div class="weui-media-box__hd "
+                                     style="position: relative; overflow: hidden;">
+                                    <img class="imgItem" :src="publicity.firstImageUrl">
+                                </div>
+                                <div class="weui-media-box__bd circle_text">
+                                    <p class="weui-media-box__desc">
+                                        {{publicity.publicityIntro}}
+                                    </p>
+                                </div>
+                            </a>
+                        </template>
+
+                        <div class="weui-flex btn_box" :data-id="publicity.id" :data-index="index">
+                            <div v-if="publicity.checkStatus <= 2" class="weui-flex__item">
+                                <a href="javascript:void(0);" @click="cancelCheck(publicity.id)"
+                                   class="eui-btn weui-btn_mini weui-btn_default">
+                                    <img src="../resources/images/icon/delete.svg"/>
+                                    取消审核
+                                </a>
+                            </div>
+                            <template v-else-if="publicity.checkStatus == 4">
+                                <div class="weui-flex__item">
+                                    <a href="javascript:void(0);" @click="edit(publicity.id,publicity.publicityType,publicity.contentType)"
+                                       class="eui-btn weui-btn_mini weui-btn_default">
+                                        <img src="../resources/images/icon/edit.svg"/>
+                                        编辑
+                                    </a>
+                                </div>
+                                <div class="weui-flex__item">
+                                    <a href="javascript:void(0);" @click="showCheckedResult(publicity.checkResult)"
+                                       class="eui-btn weui-btn_mini weui-btn_default">
+                                        <img src="../resources/images/icon/delete.svg"/>
+                                        查看审核结果
+                                    </a>
+                                </div>
+                                <div class="weui-flex__item">
+                                    <a href="javascript:void(0);" @click="remove(publicity.id)"
+                                       class="eui-btn weui-btn_mini weui-btn_default">
+                                        <img src="../resources/images/icon/delete.svg"/>
+                                        删除
+                                    </a>
+                                </div>
+                            </template>
+                            <div v-else class="weui-flex__item">
+                                <a href="javascript:void(0);" @click="showCheckedResult(publicity.checkResult)"
+                                   class="eui-btn weui-btn_mini weui-btn_default">
+                                    <img src="../resources/images/icon/delete.svg"/>
+                                    查看审核结果
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-loadmore" v-if="isLoading">
+                    <i class="weui-loading"></i>
+                    <span class="weui-loadmore__tips">正在加载</span>
+                </div>
+                <div class="weui-loadmore weui-loadmore_line" v-if="!hasMore">
+                    <span class="weui-loadmore__tips">别划了，没有了</span>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+<!--底部导航条-->
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/jquery-weui-pull-to-refresh.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/mine_submmited_check.js"></script>
+</body>
+</html>

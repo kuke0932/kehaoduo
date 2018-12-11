@@ -1,0 +1,7 @@
+# 测试公众号
+wechat:
+  mp:
+    appId: wx1b0723ab8a95d54a
+    secret: 6036488697434073fe91ddee23f7ab67
+    token: 2jo3qu4nt98234ut89
+    aesKey:

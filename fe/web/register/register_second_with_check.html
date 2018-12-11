@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>新用户注册</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../host-user/resources/css/mystyle.css">
+    <link rel="stylesheet" href="../login/resources/css/mystyle.css">
+    <style>
+        .uploader {
+            padding-top: 5px !important;
+        }
+    </style>
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../host-user/resources/images/icon/back.svg"
+                                                 alt="">返回</a>
+    <h4 class="obj_title">完善个人信息</h4>
+</header>
+<div class="container">
+    <form action="" id="form">
+        <div class="weui-cells weui-cells_form shop_name">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/shop.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="shopName" name="shopName" type="text" placeholder="请填写店铺名称" required>
+                </div>
+            </div>
+            <div class="weui-cell businessLinePicker">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/kind.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="businessLinePicker" name="businessLineCodes" class="weui-input" type="text" readonly
+                           placeholder="请选择经营类型"
+                           required>
+                </div>
+            </div>
+            <div class="weui-cell distPicker">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/address.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="distPicker" name="addressCodes" readonly class="weui-input" placeholder="请选择经营地址"
+                           required>
+                </div>
+            </div>
+            <div class="weui-cell uploader">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/card_handheld.svg"
+                                                   alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files uploaderFiles"></ul>
+                            <div class="weui-uploader__input-box">
+                                <input class="weui-uploader__input uploaderInput" type="file" accept="image/*"
+                                       capture="camera" multiple=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell__bd" style="flex:2.5">
+                    <p>
+                        请上传手持身份证照片
+                    </p>
+                </div>
+            </div>
+            <div class="weui-cell uploader">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/card_back.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files uploaderFiles"></ul>
+                            <div class="weui-uploader__input-box">
+                                <input class="weui-uploader__input uploaderInput" type="file" accept="image/*"
+                                       capture="camera" multiple=""/>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell__bd" style="flex:2.5">
+                    <p>
+                        请上传身份证反面照片
+                    </p>
+                </div>
+            </div>
+            <div class="weui-cell uploader">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/business_licence.svg"
+                                                   alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files uploaderFiles"></ul>
+                            <div class="weui-uploader__input-box">
+                                <input class="weui-uploader__input uploaderInput" type="file" accept="image/*"
+                                       capture="camera" multiple=""/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell__bd" style="flex:2.5">
+                    <p>
+                        请上传营业执照照片
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <a href="javascript:;" class="weui-btn weui-btn_warn next_step">完成注册</a>
+    </form>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="/static/js/district.js"></script>
+<script src="/static/js/businessLine.js"></script>
+
+<script>
+    $(function () {
+
+        $('.distPicker').click(function () {
+            weui.picker(allDistrict, {
+                container: 'body',
+                defaultValue: ['河北省', '石家庄市', '裕华区'],
+                onConfirm: function (result) {
+                    $('#distPicker').val(result[0].label + "," + result[1].label + "," + result[2].label);
+                },
+                id: 'distPicker'
+            });
+        });
+
+        $('.businessLinePicker').click(function () {
+            weui.picker(businessLine, {
+                container: 'body',
+                defaultValue: ['餐饮食品'],
+                onConfirm: function (result) {
+                    $('#businessLinePicker').val(result[0].label);
+                },
+                id: 'businessLinePicker'
+            });
+        });
+
+
+        $('.next_step').click(function () {
+            var shopName = $('#shopName').val();
+            if (!shopName) {
+                weui.alert("请填写店铺名称！");
+                return;
+            }
+            var businessLinePicker = $('#businessLinePicker').val();
+            if (!businessLinePicker) {
+                weui.alert("请选择经营类型！");
+                return;
+            }
+            var distPicker = $('#distPicker').val();
+            if (!distPicker) {
+                weui.alert("请选择经营地址！");
+                return;
+            }
+
+            $.ajax({
+                url: '/bs/shop/addShop',
+                method: 'post',
+                data: $('#form').serialize()
+            }).done(function (data) {
+                localStorage.setItem('x-auth-token', data.data.token);
+                localStorage.setItem('userId', data.data.userId);
+                localStorage.setItem("_site", data.data.site);
+                location.href = '../host-user/text_page.html';
+            })
+        });
+
+        $('.back_btn').click(function () {
+            history.go(-1);
+        });
+
+        /**
+         * 图片上传
+         */
+        function upload() {
+            $('.uploader').each(function () {
+                var $this = $(this);
+                weui.uploader($this, {
+                    url: '/bs/web/publicity/uploadImg',
+                    auto: true,
+                    type: 'file',
+                    fileVal: 'file',
+                    compress: false,
+                    resize: false,
+                    onBeforeQueued: function (files) {
+                        // `this` 是轮询到的文件, `files` 是所有文件
+                        if (["image/jpg", "image/jpeg", "image/png", "image/gif"].indexOf(this.type) < 0) {
+                            weui.alert('请上传图片');
+                            return false; // 阻止文件添加
+                        }
+                        if (this.size > 5 * 1024 * 1024) {
+                            weui.alert('请上传不超过5M的图片');
+                            return false;
+                        }
+                        if (files.length > 1) { // 防止一下子选择过多文件
+                            weui.alert('最多只能上传1张图片，请重新选择');
+                            return false;
+                        }
+                        // return true; // 阻止默认行为，不插入预览图的框架
+                    },
+                    onQueued: function () {
+
+                    },
+                    onBeforeSend: function (data, headers) {
+
+                    },
+                    onProgress: function (procent) {
+                        console.log(this, procent)
+                    },
+                    onSuccess: function (ret) {
+                        $this.find('.weui-uploader__input-box').css({'display': 'none'});
+                    },
+                    onError: function (err) {
+                        console.log(this, err);
+                        $this.find('.weui-uploader__input-box').css({'display': 'none'});
+                        // return true; // 阻止默认行为，不使用默认的失败态
+                    }
+                });
+            })
+        }
+
+        // 缩略图预览
+        function view() {
+            $('.uploaderFiles').each(function (i) {
+                this.addEventListener('click', function (e) {
+                    var target = e.target;
+
+                    while (!target.classList.contains('weui-uploader__file') && target) {
+                        target = target.parentNode;
+                    }
+                    if (!target) return;
+
+                    var url = target.getAttribute('style') || '';
+                    var id = target.getAttribute('data-id');
+
+                    if (url) {
+                        url = url.match(/url\((.*?)\)/)[1].replace(/"/g, '');
+                    }
+                    var gallery = weui.gallery(url, {
+                        className: 'custom-name',
+                        onDelete: function onDelete() {
+                            weui.confirm('确定删除该图片？', function () {
+                                $($('.weui-uploader__input-box')[i]).css({'display': 'block'});
+//                        --uploadCount;
+//                        uploadCountDom.innerHTML = uploadCount;
+//                        for (var i = 0, len = uploadList.length; i < len; ++i) {
+//                            var file = uploadList[i];
+//                            if (file.id == id) {
+//                                file.stop();
+//                                break;
+//                            }
+//                        }
+                                target.remove();
+                                gallery.hide();
+                            });
+                        }
+                    });
+                });
+            })
+        }
+
+        upload();
+        view();
+    });
+
+</script>
+</body>
+</html>

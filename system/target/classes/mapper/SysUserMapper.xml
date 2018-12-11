@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysUserMapper">
+    <sql id="sys_user_column">
+        SYS_USER.ID,
+        SYS_USER.LOGIN_NAME,
+        SYS_USER.LOGIN_PWD,
+        SYS_USER.SALT,
+        SYS_USER.USER_NAME,
+        SYS_USER.area,
+        SYS_USER.STATUS,
+        SYS_USER.LAST_LOGIN_TIME,
+        SYS_USER.LAST_LOGIN_IP,
+        SYS_USER.EMAIL,
+        SYS_USER.telephone,
+        SYS_USER.CONTACT_USER_ID
+    </sql>
+    <sql id="sys_user_property">
+        #{id},
+        #{loginName},
+        #{loginPwd},
+        #{salt},
+        #{userName},
+        #{area},
+        #{status},
+        #{lastLoginTime},
+        #{lastLoginIp},
+        #{email},
+        #{telephone},
+        #{contactUserId}
+    </sql>
+
+    <resultMap type="com.htcs.kehaoduo.system.bean.SysUser" id="SysUserResult">
+        <result property="id" column="ID"/>
+        <result property="loginName" column="LOGIN_NAME"/>
+        <result property="loginPwd" column="LOGIN_PWD"/>
+        <result property="salt" column="salt"/>
+        <result property="userName" column="USER_NAME"/>
+        <result property="area" column="area"/>
+        <result property="status" column="STATUS"/>
+        <result property="lastLoginTime" column="LAST_LOGIN_TIME"/>
+        <result property="lastLoginIp" column="LAST_LOGIN_IP"/>
+        <result property="email" column="EMAIL"/>
+        <result property="telephone" column="TELEPHONE"/>
+        <result property="contactUserId" column="CONTACT_USER_ID"/>
+    </resultMap>
+
+    <!-- 添加用户 -->
+    <insert id="createSysUser" parameterType="com.htcs.kehaoduo.system.bean.SysUser"
+            useGeneratedKeys="true" keyColumn="USER_ID" keyProperty="userId">
+        INSERT INTO SYS_USER(
+        <include refid="sys_user_column"/>
+        )
+        VALUE(
+        <include refid="sys_user_property"/>
+        )
+    </insert>
+
+    <!-- 修改用户 -->
+    <update id="updateSysUser" parameterType="com.htcs.kehaoduo.system.bean.SysUser">
+        UPDATE SYS_USER
+        SET
+            SYS_USER.USER_NAME       = #{userName},
+            SYS_USER.area            = #{area},
+            SYS_USER.EMAIL           = #{email},
+            SYS_USER.TELEPHONE       = #{telephone},
+            SYS_USER.LOGIN_NAME      = #{loginName},
+            SYS_USER.LOGIN_PWD       = #{loginPwd},
+            SYS_USER.STATUS          = #{status},
+            SYS_USER.LAST_LOGIN_TIME = #{lastLoginTime},
+            SYS_USER.LAST_LOGIN_IP   = #{lastLoginIp},
+            SYS_USER.LOGICAL_DEL     = #{logicalDel}
+        WHERE
+            SYS_USER.USER_ID = #{id}
+    </update>
+
+
+    <!-- 根据ID，查询用户信息 -->
+    <select id="querySysUserByUserId" parameterType="int" resultMap="SysUserResult">
+        SELECT
+        <include refid="sys_user_column"/>
+        FROM SYS_USER WHERE SYS_USER.ID=#{value}
+    </select>
+
+
+    <!-- 分页查询用户列表 ，开始 -->
+    <select id="findSysUserList" parameterType="com.htcs.kehaoduo.system.bean.SysUser" resultMap="SysUserResult">
+        SELECT
+        <include refid="sys_user_column"/>
+        FROM SYS_USER
+        <where>
+            <if test="loginName!=null and loginName!=''">
+                AND <![CDATA[ SYS_USER.LOGIN_NAME like CONCAT('%',#{loginName},'%') ]]>
+            </if>
+            <if test="userName!=null and userName!=''">
+                AND <![CDATA[ SYS_USER.USER_NAME like CONCAT('%',#{userName},'%') ]]>
+            </if>
+            <if test="email!=null and email!=''">
+                AND <![CDATA[ SYS_USER.EMAIL like CONCAT('%',#{email},'%') ]]>
+            </if>
+            <if test="logicalDel!=null">
+                AND SYS_USER.LOGICAL_DEL = #{logicalDel}
+            </if>
+        </where>
+        ORDER BY SYS_USER.ID
+    </select>
+
+    <!-- 根据ID，删除用户信息 -->
+    <delete id="delSysUserByUserId" parameterType="int">
+        DELETE FROM SYS_USER
+        WHERE ID = #{value}
+    </delete>
+
+    <select id="countByLoginName" parameterType="com.htcs.kehaoduo.system.bean.SysUser" resultType="int">
+        SELECT count(1)
+        FROM sys_user
+        WHERE LOGIN_NAME = #{loginName}
+    </select>
+
+    <!-- 逻辑删除 -->
+    <update id="logicalDeleteUserById" parameterType="int">
+        UPDATE SYS_USER SET
+        SYS_USER.LOGICAL_DEL=1
+        <where>
+            SYS_USER.UID=#{value}
+        </where>
+    </update>
+
+    <!-- 用户登录 -->
+    <select id="getUserByLogin" parameterType="com.htcs.kehaoduo.system.bean.SysUser" resultMap="SysUserResult">
+        SELECT
+        <include refid="sys_user_column"/>
+        FROM SYS_USER
+        <where>
+            <if test="loginName!=null and loginName!=''">
+                AND SYS_USER.LOGIN_NAME = #{loginName}
+            </if>
+            <if test="loginPwd!=null and loginPwd!=''">
+                AND SYS_USER.LOGIN_PWD = #{loginPwd}
+            </if>
+            <if test="logicalDel!=null">
+                AND SYS_USER.LOGICAL_DEL = #{logicalDel}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addAgent" parameterType="com.htcs.kehaoduo.system.bean.SysUser">
+        INSERT INTO sys_user (login_name, login_pwd, area)
+        VALUES (#{loginName}, #{loginPwd}, #{area})
+    </insert>
+
+    <select id="getUserByLoginName" parameterType="String" resultMap="SysUserResult">
+        SELECT
+        <include refid="sys_user_column"/>
+        FROM sys_user
+        WHERE login_name = #{username}
+    </select>
+
+    <update id="updateByLoginName" parameterType="com.htcs.kehaoduo.system.bean.SysUser">
+        UPDATE sys_user
+        SET login_pwd = #{loginPwd}
+        WHERE login_name = #{loginName}
+    </update>
+
+</mapper>

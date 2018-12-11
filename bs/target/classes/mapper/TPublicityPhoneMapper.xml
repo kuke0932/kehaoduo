@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.mapper.TPublicityPhoneMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.po.TPublicityPhone">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="web_user_id" jdbcType="INTEGER" property="webUserId"/>
+        <result column="publicity_id" jdbcType="INTEGER" property="publicityId"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="valid_area_code" jdbcType="VARCHAR" property="validAreaCode"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <select id="listPhone" resultType="map">
+        SELECT
+        tpp.phone AS phone,
+        tpp.valid_area_code AS validAreaCode,
+        tpp.create_time AS createTime
+        FROM t_publicity_phone tpp
+        WHERE publicity_id = #{publicityId}
+    </select>
+
+    <insert id="insertPhone" parameterType="com.htcs.kehaoduo.mapper.TPublicityPhoneMapper">
+        insert into t_publicity_phone
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                web_user_id,
+            </if>
+            <if test="publicityId != null">
+                publicity_id,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="validAreaCode != null">
+                valid_area_code,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                #{webUserId},
+            </if>
+            <if test="publicityId != null">
+                #{publicityId},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="validAreaCode != null">
+                #{validAreaCode},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createName != null">
+                #{createName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateName != null">
+                #{updateName},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+</mapper>

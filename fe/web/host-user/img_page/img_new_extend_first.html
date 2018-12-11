@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>图文新增推广第一步</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <link rel="stylesheet" href="../resources/css/add_extend.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">新增推广</h4>
+    <a href="img_already_saved.html" class="draft">已保存</a>
+</header>
+<!--主体部分-->
+<div class="container">
+
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd add_img">
+                <div class="weui-media-box weui-media-box_appmsg">
+                    <div class="textarea_content">
+                        <div class="weui-cell__bd">
+                            <textarea style="padding-left: 0" class="weui-textarea" id="publicityIntro"
+                                      placeholder="设置扫码群发时封面消息，不超过30字，严禁发送色情、暴力、宗教等违法信息；平台24小时人工巡检，一经发现，立即封号；并报送国家相关部门处理。"
+                                      rows="3" maxlength="30"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell extend_title">
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="publicityTitle" maxlength="20" type="text"
+                       placeholder="请输入图文消息标题 (不超过20字)">
+            </div>
+        </div>
+    </div>
+
+    <div class="main_content">
+        <div class="inner_content">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <textarea class="weui-textarea textarea content" id="" placeholder="请输入正文" rows="1"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells weui-cells_form add_main_img">
+                <div class="weui-panel weui-panel_access">
+                    <div class="weui-panel__bd add_img">
+                        <div class="weui-media-box weui-media-box_appmsg">
+                            <div class="weui-uploader uploader">
+                                <div class="weui-uploader__bd">
+                                    <div class="weui-uploader__input-box preview_img">
+                                        <div class="preview">
+                                            <div class="pre"></div>
+                                        </div>
+                                        <input class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="textarea_content">
+                                <div class="weui-cell__bd">
+                                    <p>
+                                        请在左侧上传图文消息图片，图片大小不超过5M，如图片不合要求，请通过QQ或者微信截图处理。如不需要图片，可不上传。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--继续添加按钮-->
+    <div class="text-right">
+        <a href="javascript:;" class="continue_add weui-btn weui-btn_default weui-btn_mini add_extend_btn"><img
+                src="../resources/images/icon/add.svg" alt="">继续添加</a>
+    </div>
+
+    <div class="weui-flex add_btn_box">
+        <div class="weui-flex__item">
+            <a href="javascript:;" class="weui-btn weui-btn_default add_extend_btn" id="preview">预览效果</a>
+        </div>
+        <div class="weui-flex__item">
+            <a href="javascript:;" class="weui-btn weui-btn_default add_extend_btn" id="saveDraft">保存草稿</a>
+        </div>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<!--textarea自动伸缩-->
+<script src="https://cdn.bootcss.com/autosize.js/4.0.0/autosize.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/img_page/img_new_extend_first.js"></script>
+</body>
+</html>

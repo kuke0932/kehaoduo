@@ -1,0 +1,12 @@
+
+upload:
+  path: E:\IdeaProjects\kehaoduo\fe\upload\
+
+# 测试公众号
+wechat:
+  mp:
+    appId: wxf06ed430ea6952c9
+    secret: fe66f85cd7ec3738f283fdbd0d63bf2e
+    token: 2jo3qu4nt98234ut89
+    aesKey:
+  templateId: 2dsAIMsePIsnZ5nAaKAeF6-WCCYjHIGfLjH6ZF8ni0M

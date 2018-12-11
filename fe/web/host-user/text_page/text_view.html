@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>文字查看效果</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <link rel="stylesheet" href="../resources/css/view.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">查看效果</h4>
+</header>
+<!--主体部分-->
+<div class="container" v-cloak>
+    <div class="weui-cells view_count">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>扫码次数: {{scanCount}}</p>
+                <p>发送人数: {{sendCount}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-panel__bd view_records" v-for="publicity in publicityResult">
+        <div class="weui-media-box weui-media-box_appmsg">
+            <div class="weui-media-box__hd">
+                <img class="weui-media-box__thumb" src="../resources/images/khd.png">
+            </div>
+            <div class="weui-media-box__bd">
+                <input type="hidden" :value="publicity.id">
+                <p style="font-size: 12px;" class="weui-media-box__title">{{publicity.userNickname}}</p>
+                <p style="font-size: 12px;" class="weui-media-box__title">发送人数：{{publicity.toUserCount}}</p>
+                <p style="font-size: 12px;" class="weui-media-box__title">扫码时间：{{publicity.operateTime | time}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/text_page/text_view.js"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.system.mapper.SysAgentAppidMapper">
+  <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.system.bean.SysAgentAppid">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sys_user_id" jdbcType="INTEGER" property="sysUserId" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="app_secret" jdbcType="VARCHAR" property="appSecret" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="aes_key" jdbcType="VARCHAR" property="aesKey" />
+    <result column="logical_del" jdbcType="TINYINT" property="logicalDel" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, sys_user_id, area_code, area, app_id, app_secret, token, aes_key, logical_del, 
+    create_by, create_name, create_time, update_by, update_name, update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_agent_appid
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAppId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_agent_appid
+    where app_id = #{appId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectBySysUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_agent_appid
+    where sys_user_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByAreaCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_agent_appid
+    where area_code = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_agent_appid
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.htcs.kehaoduo.system.bean.SysAgentAppid">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_agent_appid (sys_user_id, area_code, area, 
+      app_id, app_secret, token, 
+      aes_key, logical_del, create_by, 
+      create_name, create_time, update_by, 
+      update_name, update_time)
+    values (#{sysUserId,jdbcType=INTEGER}, #{areaCode,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{aesKey,jdbcType=VARCHAR}, #{logicalDel,jdbcType=TINYINT}, #{createBy,jdbcType=INTEGER}, 
+      #{createName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, 
+      #{updateName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.htcs.kehaoduo.system.bean.SysAgentAppid">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_agent_appid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sysUserId != null">
+        sys_user_id,
+      </if>
+      <if test="areaCode != null">
+        area_code,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="appSecret != null">
+        app_secret,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="aesKey != null">
+        aes_key,
+      </if>
+      <if test="logicalDel != null">
+        logical_del,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateName != null">
+        update_name,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sysUserId != null">
+        #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null">
+        #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="aesKey != null">
+        #{aesKey,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalDel != null">
+        #{logicalDel,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateName != null">
+        #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.system.bean.SysAgentAppid">
+    update sys_agent_appid
+    <set>
+      <if test="sysUserId != null">
+        sys_user_id = #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null">
+        app_secret = #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="aesKey != null">
+        aes_key = #{aesKey,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalDel != null">
+        logical_del = #{logicalDel,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateBySysUserId" parameterType="com.htcs.kehaoduo.system.bean.SysAgentAppid">
+    update sys_agent_appid
+    <set>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null">
+        app_secret = #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="aesKey != null">
+        aes_key = #{aesKey,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalDel != null">
+        logical_del = #{logicalDel,jdbcType=TINYINT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sys_user_id = #{sysUserId,jdbcType=INTEGER}
+  </update>
+</mapper>

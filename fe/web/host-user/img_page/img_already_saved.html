@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商家宝</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">已保存</h4>
+</header>
+<!--主体部分-->
+<div class="container" v-cloak>
+    <div id="img_page" class="weui-tab__bd-item weui-tab__bd-item--active">
+        <div class="img_panel">
+            <div class="weui-panel__bd" v-for="(publicity,index) in listPublicity">
+                <div class="header_infor">
+                    <span>保存时间: {{publicity.createTime | time}}</span><span>类型: 草稿</span>
+                </div>
+                <hr>
+                <div class="img_content" style="padding:15px;" :data-id="publicity.id">
+                    <h4>{{publicity.publicityTitle}}</h4>
+                    <div>
+                        <div class="img_left">
+                            {{publicity.publicityIntro}}
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-flex btn_box" :data-id="publicity.id" :data-index="index">
+                    <div class="weui-flex__item edit">
+                        <a href="javascript:void(0);" class="eui-btn weui-btn_mini weui-btn_default">
+                            <img src="../resources/images/icon/edit.svg"/>
+                            编辑
+                        </a>
+                    </div>
+                    <div class="weui-flex__item draftRemove">
+                        <a href="javascript:void(0);" class="eui-btn weui-btn_mini weui-btn_default">
+                            <img src="../resources/images/icon/delete.svg"/>
+                            删除本条
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/img_page/img_already_saved.js"></script>
+</body>
+</html>

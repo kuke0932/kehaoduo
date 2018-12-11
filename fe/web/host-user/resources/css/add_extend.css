@@ -1,0 +1,207 @@
+/**
+* ${kehaoduo}
+* @author LiuChaoqun
+* @create ${YEAR}-${MONTH}-${DAY} ${TIME}
+**/
+.other_header .draft {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  color: #fff;
+}
+.weui-btn_warn {
+  height: 45px;
+  line-height: 45px;
+  font-size: 14px;
+  margin: 20px 35px;
+  border-radius: 30px;
+}
+.container {
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+.container p {
+  margin-bottom: 0;
+}
+.container label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+.container .add_main_img {
+  margin-top: 10px;
+}
+.container .add_img {
+  margin: 0;
+}
+.container .add_img .weui-media-box .weui-media-box__bd {
+  padding: 3px;
+}
+.container .add_img .weui-uploader .weui-uploader__bd {
+  margin-right: 0;
+  overflow: hidden;
+  position: relative;
+}
+.container .add_img .weui-uploader .weui-uploader__bd img {
+  position: absolute;
+}
+.container .add_img .weui-uploader .weui-uploader__bd .delete_img {
+  width: 75px;
+  height: 75px;
+  position: relative;
+  cursor: pointer;
+  z-index: 10;
+}
+.container .add_img .weui-uploader .weui-uploader__bd .delete_img img {
+  position: absolute;
+  right: -2px;
+  top: -1px;
+  width: 20px;
+  height: 20px;
+}
+.container .add_img .weui-uploader .weui-uploader__input-box {
+  margin-bottom: 0;
+  margin-right: 0;
+  width: 75px;
+  height: 75px;
+}
+.container .add_img .weui-uploader .weui-uploader__input-box .preview {
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 999;
+  position: relative;
+}
+.container .add_img .weui-uploader .weui-uploader__input-box .preview .pre {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url(../images/loading.gif) center no-repeat;
+  opacity: 0.9;
+}
+.container .add_img .textarea_content {
+  width: 100%;
+  padding: 0;
+}
+.container .add_img .textarea_content textarea {
+  width: 100%;
+  font-size: 12px;
+  padding: 0;
+  color: #666;
+  padding-left: 15px;
+}
+.container .add_img .textarea_content p {
+  text-align: justify;
+  padding-left: 15px;
+}
+.container .text-right {
+  margin: 5px;
+}
+.container .text-right a {
+  color: #666;
+  font-size: 12px;
+  padding: 0 10px;
+  text-decoration: none;
+}
+.container .text-right a img {
+  width: 15px;
+  height: 15px;
+}
+.container .add_btn_box {
+  background: #ddd;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 20;
+}
+.container .add_btn_box a {
+  height: 45px;
+  font-size: 14px;
+  line-height: 45px;
+  color: #e64340;
+}
+.container .add_money {
+  font-size: 14px;
+  color: #666;
+}
+.container .add_money input {
+  padding-left: 20px;
+  width: 69%;
+  border: 0;
+}
+.container .money_intro {
+  color: #f00;
+  float: right;
+  font-size: 12px;
+  margin-right: 5px;
+}
+.container .clear_float {
+  clear: both;
+}
+@media screen and (max-width: 375px) {
+  .container .add_money input {
+    width: 64%;
+  }
+}
+@media screen and (max-width: 320px) {
+  .container .add_money input {
+    width: 56%;
+  }
+}
+.container .add_area .weui-cells__title {
+  color: #666;
+  font-size: 12px;
+  padding: 5px 0 5px 15px;
+}
+.container .add_area .weui-cells__title span {
+  color: #f00;
+}
+.container .add_area .weui-cell_select {
+  padding: 10px 15px;
+}
+.container .add_area .weui-cell_select input {
+  width: 70%;
+  color: #999;
+  padding-left: 15px;
+}
+.container .add_who {
+  font-size: 14px;
+  color: #666;
+}
+.container .add_who .weui-cells__title {
+  color: #666;
+  font-size: 12px;
+}
+.container .add_number {
+  color: #666;
+  font-size: 14px;
+}
+.container .text_add_btn a {
+  margin: 20px 30px;
+}
+/*预览效果*/
+.preview .weui-cells .p_title {
+  text-align: center;
+  margin-top: 10px;
+}
+.preview .weui-cells .add_img .front_img {
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+  position: relative;
+}
+.preview .weui-cells .preview_main_content {
+  margin-top: 0;
+}
+.preview .weui-cells .preview_main_content h4 {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 1.5em;
+  letter-spacing: 2px;
+  padding: 0 10px;
+}
+.preview .weui-cells .preview_main_content p {
+  margin-bottom: 10px;
+}

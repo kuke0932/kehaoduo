@@ -1,0 +1,199 @@
+/**
+* ${kehaoduo}
+* @author LiuChaoqun
+* @create ${YEAR}-${MONTH}-${DAY} ${TIME}
+**/
+//按钮通用样式
+.weui-btn_warn {
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
+    margin: 20px 35px;
+    border-radius: 30px;
+}
+
+/*底部导航字体颜色*/
+.weui-tabbar__label {
+    color: #666;
+    font-size: 12px;
+}
+
+/*选择区域字体*/
+.weui-picker__item {
+    font-size: 16px;
+    padding: 0;
+    line-height: 34px;
+    height: 34px;
+}
+
+/*弹出框字体颜色*/
+.weui-toast__content {
+    color: #fff;
+}
+
+.weui-btn_mini {
+    font-size: 12px;
+}
+
+header {
+    text-align: center;
+    position: relative;
+    .logo {
+        width: 50%;
+        margin: 90px auto 30px;
+    }
+    .back_btn {
+        position: absolute;
+        top: 9px;
+        left: 7px;
+        img {
+            width: 15px;
+            vertical-align: sub;
+        }
+    }
+}
+
+* {
+    color: #666;
+    font-size: 12px;
+}
+
+//标题字体
+.obj_title {
+    font-size: 14px;
+}
+
+.container {
+    /*验证码行高*/
+    .weui-cell_vcode {
+        //height: 41px;
+    }
+    /*登录 注册 页面*/
+    .phone_key:before {
+        border: 0;
+    }
+    .phone_key:after {
+        border: 0;
+    }
+    .phone_key {
+        .weui-cell:before {
+            border: 0;
+        }
+        .weui-cell:after {
+            border: 0;
+        }
+        .weui-cell {
+            height: 45px;
+            border: 1px solid #777;
+            margin: 0 35px 20px;
+            padding: 0 10px;
+            border-radius: 30px;
+            background: rgb(240, 240, 240);
+            label {
+                width: 35px;
+                height: 20px;
+                border-right: 1px solid #777;
+                line-height: 20px;
+                text-align: center;
+                vertical-align: middle;
+                display: table-cell;
+                img {
+                    width: 20px;
+                    vertical-align: sub;
+                }
+            }
+            .weui-input {
+                padding-left: 8px;
+            }
+        }
+        .check_num {
+            .weui-vcode-btn {
+                font-size: 12px;
+                color: #e64340
+            }
+            .weui-vcode-btn:after {
+                border: 0;
+                border-left: 1px solid #ddd;
+                border-radius: 0;
+            }
+        }
+    }
+    //第二步
+    .shop_name {
+        .weui-cell {
+            min-height: 45px;
+            padding: 0 15px;
+            label {
+                width: 35px;
+                img {
+                    width: 22px;
+                    vertical-align: middle;
+                }
+            }
+        }
+
+    }
+    .login_register {
+        .login_btn {
+            margin: 0 35px 7px;
+            border-radius: 30px;
+        }
+        .register_btn {
+            margin-right: 15px;
+        }
+    }
+    .bottom_info {
+        margin: 0 25px 15px;
+        padding: 0 20px;
+        line-height: 1.2;
+        position: relative;
+        text-align: right;
+        a {
+            color: #f00;
+        }
+        .forget_password {
+            float: left
+        }
+        .new_register {
+            float: right;
+        }
+        #agree {
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: 3px;
+        }
+        label {
+            font-size: 15px;
+            margin-left: 18px;
+            a {
+                color: #f00;
+            }
+        }
+    }
+    .user_agree {
+        margin-top: -32px;
+        i {
+            margin-top: -2px;
+
+        }
+        i:before {
+            font-size: 20px;
+        }
+        .weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
+            color: #e64340;
+        }
+        span {
+            margin-left: -2px;
+        }
+    }
+    .next_step {
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        border-radius: 30px;
+    }
+}
+
+[v-cloak] {
+    display: none;
+}

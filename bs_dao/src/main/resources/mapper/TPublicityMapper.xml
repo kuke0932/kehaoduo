@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.bs.mapper.TPublicityMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.bs.po.TPublicity">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="first_image_url" jdbcType="VARCHAR" property="firstImageUrl"/>
+        <result column="publicity_title" jdbcType="VARCHAR" property="publicityTitle"/>
+        <result column="publicity_intro" jdbcType="VARCHAR" property="publicityIntro"/>
+        <result column="publicity_type" jdbcType="TINYINT" property="publicityType"/>
+        <result column="check_status" jdbcType="TINYINT" property="checkStatus"/>
+        <result column="check_result" jdbcType="VARCHAR" property="checkResult"/>
+        <result column="content_type" jdbcType="TINYINT" property="contentType"/>
+        <result column="qrcode_url" jdbcType="VARCHAR" property="qrcodeUrl"/>
+        <result column="fee" jdbcType="VARCHAR" property="fee"/>
+        <result column="total_read_count" jdbcType="INTEGER" property="totalReadCount"/>
+        <result column="is_ended" jdbcType="TINYINT" property="isEnded"/>
+        <result column="valid_area_code" jdbcType="VARCHAR" property="validAreaCode"/>
+        <result column="is_contain_phone" jdbcType="TINYINT" property="isContainPhone"/>
+        <result column="web_user_id" jdbcType="INTEGER" property="webUserId"/>
+        <result column="to_user_type" jdbcType="VARCHAR" property="toUserType"/>
+        <result column="static_url" jdbcType="VARCHAR" property="staticUrl"/>
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, first_image_url, publicity_title, publicity_intro, publicity_type, check_status, check_result,  content_type, qrcode_url,
+        fee, total_read_count, is_ended, valid_area_code, is_contain_phone, web_user_id, to_user_type, static_url,
+        logical_del, create_by, create_name, create_time, update_by, update_name, update_time, content
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_publicity
+        where id = #{id,jdbcType=INTEGER}
+        and logical_del = 0
+    </select>
+
+    <select id="selectByWebUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_publicity
+        where web_user_id = #{webUserId,jdbcType=INTEGER}
+        and logical_del = 0
+        <choose>
+            <when test="checkStatus == -1">
+                and check_status in (2, 3, 4)
+            </when>
+            <when test="checkStatus != null">
+                and check_status = #{checkStatus,jdbcType=TINYINT}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <if test="publicityType != null">
+            and publicity_type = #{publicityType,jdbcType=TINYINT}
+        </if>
+        <if test="contentType != null">
+            and content_type = #{contentType,jdbcType=TINYINT}
+        </if>
+        order by isnull(update_time) desc, update_time desc, create_time desc
+    </select>
+    <!--查看全文-->
+    <select id="queryContent" resultType="java.util.Map">
+        SELECT
+            id,
+            publicity_title  AS publicityTitle,
+            publicity_intro  AS publicityIntro,
+            content,
+            first_image_url  AS firstImageUrl,
+        is_contain_phone AS isContainPhone,
+        logical_del AS logicalDel
+        FROM t_publicity
+        WHERE id = #{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_publicity
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.htcs.kehaoduo.bs.po.TPublicity" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
+        insert into t_publicity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="firstImageUrl != null">
+                first_image_url,
+            </if>
+            <if test="publicityTitle != null">
+                publicity_title,
+            </if>
+            <if test="publicityIntro != null">
+                publicity_intro,
+            </if>
+            <if test="publicityType != null">
+                publicity_type,
+            </if>
+            <if test="checkStatus != null">
+                check_status,
+            </if>
+            <if test="checkResult != null">
+                check_result,
+            </if>
+            <if test="contentType != null">
+                content_type,
+            </if>
+            <if test="qrcodeUrl != null">
+                qrcode_url,
+            </if>
+            <if test="fee != null">
+                fee,
+            </if>
+            <if test="totalReadCount != null">
+                total_read_count,
+            </if>
+            <if test="isEnded != null">
+                is_ended,
+            </if>
+            <if test="validAreaCode != null">
+                valid_area_code,
+            </if>
+            <if test="isContainPhone != null">
+                is_contain_phone,
+            </if>
+            <if test="webUserId != null">
+                web_user_id,
+            </if>
+            <if test="toUserType != null">
+                to_user_type,
+            </if>
+            <if test="staticUrl != null">
+                static_url,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="firstImageUrl != null">
+                #{firstImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityTitle != null">
+                #{publicityTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityIntro != null">
+                #{publicityIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityType != null">
+                #{publicityType,jdbcType=TINYINT},
+            </if>
+            <if test="checkStatus != null">
+                #{checkStatus,jdbcType=TINYINT},
+            </if>
+            <if test="checkResult != null">
+                #{checkResult,jdbcType=VARCHAR},
+            </if>
+            <if test="contentType != null">
+                #{contentType,jdbcType=TINYINT},
+            </if>
+            <if test="qrcodeUrl != null">
+                #{qrcodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="fee != null">
+                #{fee,jdbcType=VARCHAR},
+            </if>
+            <if test="totalReadCount != null">
+                #{totalReadCount,jdbcType=INTEGER},
+            </if>
+            <if test="isEnded != null">
+                #{isEnded,jdbcType=TINYINT},
+            </if>
+            <if test="validAreaCode != null">
+                #{validAreaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isContainPhone != null">
+                #{isContainPhone,jdbcType=TINYINT},
+            </if>
+            <if test="webUserId != null">
+                #{webUserId,jdbcType=INTEGER},
+            </if>
+            <if test="toUserType != null">
+                #{toUserType,jdbcType=VARCHAR},
+            </if>
+            <if test="staticUrl != null">
+                #{staticUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.bs.po.TPublicity">
+        update t_publicity
+        <set>
+            <if test="firstImageUrl != null">
+                first_image_url = #{firstImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityTitle != null">
+                publicity_title = #{publicityTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityIntro != null">
+                publicity_intro = #{publicityIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="publicityType != null">
+                publicity_type = #{publicityType,jdbcType=TINYINT},
+            </if>
+            <if test="checkStatus != null">
+                check_status = #{checkStatus,jdbcType=TINYINT},
+            </if>
+            <if test="checkResult != null">
+                check_result = #{checkResult,jdbcType=VARCHAR},
+            </if>
+            <if test="contentType != null">
+                content_type = #{contentType,jdbcType=TINYINT},
+            </if>
+            <if test="qrcodeUrl != null">
+                qrcode_url = #{qrcodeUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="fee != null">
+                fee = #{fee,jdbcType=VARCHAR},
+            </if>
+            <if test="totalReadCount != null">
+                total_read_count = #{totalReadCount,jdbcType=INTEGER},
+            </if>
+            <if test="isEnded != null">
+                is_ended = #{isEnded,jdbcType=TINYINT},
+            </if>
+            <if test="validAreaCode != null">
+                valid_area_code = #{validAreaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isContainPhone != null">
+                is_contain_phone = #{isContainPhone,jdbcType=TINYINT},
+            </if>
+            <if test="webUserId != null">
+                web_user_id = #{webUserId,jdbcType=INTEGER},
+            </if>
+            <if test="toUserType != null">
+                to_user_type = #{toUserType,jdbcType=VARCHAR},
+            </if>
+            <if test="staticUrl != null">
+                static_url = #{staticUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="logicalDelById">
+        UPDATE t_publicity
+        SET logical_del = 1
+        WHERE web_user_id = #{webUserId} AND id = #{id}
+    </update>
+
+    <select id="queryContentWithReadCount" resultType="com.htcs.kehaoduo.bs.dto.PublicityDto">
+        SELECT
+            tp.id,
+            tp.publicity_intro AS publicityIntro,
+            tp.publicity_title AS publicityTitle,
+            tp.content AS content,
+            tp.first_image_url AS firstImageUrl,
+            tp.create_time AS createTime,
+            tp.valid_area_code AS validAreaCode,
+                t.readCount,
+            tp.is_ended AS isEnded,
+            tp.is_contain_phone AS isContainPhone,
+            tp.logical_del AS logicalDel,
+            tp.publicity_type as publicityType,
+            tp.content_type as contentType
+            FROM
+                t_publicity tp,
+                (
+                    SELECT
+            tp.id AS publicityId,
+                        count(tpr.publicity_id) AS readCount
+                    FROM
+                        t_publicity tp
+            LEFT JOIN t_publicity_read_log tpr ON tpr.publicity_id = tp.id
+            AND tpr.is_valid = 1
+            WHERE tp.id = #{id}
+                    GROUP BY
+                        tp.id
+                ) t
+            WHERE
+            tp.id = #{id}
+            AND t.publicityId = tp.id
+
+    </select>
+
+    <select id="queryUserHasRead" resultType="int">
+        SELECT count(1) c
+        FROM t_publicity_read_log tprl
+        WHERE tprl.publicity_id = #{publicityId}
+        AND tprl.reader_open_id = #{readerOpenid}
+        AND tprl.is_valid = 1
+    </select>
+
+    <insert id="addPublicity" parameterType="com.htcs.kehaoduo.bs.mapper.TPublicityMapper" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into t_publicity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="firstImageUrl != null">
+                first_image_url,
+            </if>
+            <if test="publicityTitle != null">
+                publicity_title,
+            </if>
+            <if test="publicityIntro != null">
+                publicity_intro,
+            </if>
+            <if test="publicityType != null">
+                publicity_type,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="checkStatus != null">
+                check_status,
+            </if>
+            <if test="contentType != null">
+                content_type,
+            </if>
+            <if test="qrcodeUrl != null">
+                qrcode_url,
+            </if>
+            <if test="fee != null">
+                fee,
+            </if>
+            <if test="totalReadCount != null">
+                total_read_count,
+            </if>
+            <if test="isEnded != null">
+                is_ended,
+            </if>
+            <if test="validAreaCode != null">
+                valid_area_code,
+            </if>
+            <if test="isContainPhone != null">
+                is_contain_phone,
+            </if>
+            <if test="webUserId != null">
+                web_user_id,
+            </if>
+            <if test="toUserType != null">
+                to_user_type,
+            </if>
+            <if test="staticUrl != null">
+                static_url,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="firstImageUrl != null">
+                #{firstImageUrl},
+            </if>
+            <if test="publicityTitle != null">
+                #{publicityTitle},
+            </if>
+            <if test="publicityIntro != null">
+                #{publicityIntro},
+            </if>
+            <if test="publicityType != null">
+                #{publicityType},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="checkStatus != null">
+                #{checkStatus},
+            </if>
+            <if test="contentType != null">
+                #{contentType},
+            </if>
+            <if test="qrcodeUrl != null">
+                #{qrcodeUrl},
+            </if>
+            <if test="fee != null">
+                #{fee},
+            </if>
+            <if test="totalReadCount != null">
+                #{totalReadCount},
+            </if>
+            <if test="isEnded != null">
+                #{isEnded},
+            </if>
+            <if test="validAreaCode != null">
+                #{validAreaCode},
+            </if>
+            <if test="isContainPhone != null">
+                #{isContainPhone},
+            </if>
+            <if test="webUserId != null">
+                #{webUserId},
+            </if>
+            <if test="toUserType != null">
+                #{toUserType},
+            </if>
+            <if test="staticUrl != null">
+                #{staticUrl},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createName != null">
+                #{createName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateName != null">
+                #{updateName},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertPhone" parameterType="com.htcs.kehaoduo.bs.mapper.TPublicityPhoneMapper">
+        insert into t_publicity_phone
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                web_user_id,
+            </if>
+            <if test="publicityId != null">
+                publicity_id,
+            </if>
+            <if test="Phone != null">
+                phone,
+            </if>
+            <if test="validAreaCode != null">
+                valid_area_code,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                #{webUserId},
+            </if>
+            <if test="publicityId != null">
+                #{publicityId},
+            </if>
+            <if test="Phone != null">
+                #{Phone},
+            </if>
+            <if test="validAreaCode != null">
+                #{validAreaCode},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createName != null">
+                #{createName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateName != null">
+                #{updateName},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="listPublicity4Check" resultType="map">
+        SELECT
+            tp.id,
+            tp.web_user_id webUserId,
+            wu.login_name loginName,
+            wu.mobile,
+            ts.shop_name shopName,
+            ts.business_licence businessLicence,
+            ts.business_line_codes businessLineCodes,
+            DATE_FORMAT(tp.create_time,'%Y-%m-%d %H:%i:%s') createTime,
+            CASE WHEN tp.update_time IS NULL THEN '999'
+            ELSE DATE_FORMAT(tp.update_time,'%Y-%m-%d %H:%i:%s') END updateTime,
+            tp.publicity_title publicityTitle,
+            tp.publicity_intro publicityIntro,
+            tp.content,
+            tp.publicity_type publicityType,
+            tp.content_type contentType,
+            tp.check_status checkStatus
+        FROM t_publicity tp LEFT JOIN web_user wu ON tp.web_user_id = wu.id
+        LEFT JOIN t_shop ts ON tp.web_user_id = ts.web_user_id
+        <where>
+            tp.logical_del = 0 AND tp.check_status != 1
+            <if test="publicityTitle != null and publicityTitle != ''">
+                AND tp.publicity_title LIKE CONCAT('%', #{publicityTitle}, '%')
+            </if>
+            <if test="publicityType != null and publicityType != ''">
+                AND tp.publicity_type = #{publicityType}
+            </if>
+            <if test="contentType != null and contentType != ''">
+                AND tp.content_type = #{contentType}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                AND tp.check_status = #{checkStatus}
+            </if>
+            <if test="beginTime != null and endTime != null">
+                AND tp.create_time BETWEEN #{beginTime} AND #{endTime}
+            </if>
+        </where>
+        ORDER BY updateTime DESC,createTime DESC
+    </select>
+</mapper>

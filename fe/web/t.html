@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跳转中...</title>
+    <script>
+        function getUrlQueryName(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"),
+                r = location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        var r = getUrlQueryName('r');
+        var o = getUrlQueryName('o');
+        console.log(r);
+        console.log(o);
+        var url = o.replace(/REDIRECTURL/, encodeURIComponent(r));
+        location.href = url;
+
+    </script>
+</head>
+<body>
+</body>
+</html>

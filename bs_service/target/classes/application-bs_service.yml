@@ -1,0 +1,12 @@
+publicity:
+  text:
+    fee: 2.00
+    max-to-free-month: 40
+    max-to-free-year: 80
+  scan:
+    fee: 0.08
+  forward:
+    fee: 0.12
+    user: 8
+    platform: 4
+  agentEarning: 0.65

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.system.mapper.SysAgentMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.system.bean.SysAgent">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sys_user_id" jdbcType="INTEGER" property="sysUserId"/>
+        <result column="unionid" jdbcType="VARCHAR" property="unionid"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="area_code" jdbcType="VARCHAR" property="areaCode"/>
+        <result column="can_withdraw_balance" jdbcType="DECIMAL" property="canWithdrawBalance"/>
+
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+        <result column="web_user_id" jdbcType="INTEGER" property="webUserId"/>
+        <result column="api_key" jdbcType="VARCHAR" property="apiKey"/>
+        <result column="api_secret" jdbcType="VARCHAR" property="apiSecret"/>
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+
+        su.id, sa.sys_user_id, sa.unionid, sa.openid, sa.area, sa.area_code sa.can_withdraw_balance,
+        su.login_name, su.login_pwd, su.salt, su.user_name, su.email, su.mobile, su.telephone, su.status,
+        su.last_login_time, su.last_login_ip, su.web_user_id, su.api_key, su.api_secret,
+        su.logical_del, su.create_by, su.create_name, su.create_time, su.update_by, su.update_name, su.update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_agent sa, sys_user su
+        where sa.id = #{id,jdbcType=INTEGER} and sa.sys_user_id = su.id
+    </select>
+    <select id="selectBySysUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_agent sa, sys_user su
+        where sa.sys_user_id = #{sysUserId,jdbcType=INTEGER} and sa.sys_user_id = su.id
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM sys_agent
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.htcs.kehaoduo.system.bean.SysAgent">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_agent (sys_user_id, unionid, openid,
+        area, area_code can_withdraw_balance, logical_del,
+        create_by, create_name, create_time,
+        update_by, update_name, update_time
+        )
+        values (#{sysUserId,jdbcType=INTEGER}, #{unionid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR},
+        #{area,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{canWithdrawBalance,jdbcType=DECIMAL},
+        #{logicalDel,jdbcType=TINYINT},
+        #{createBy,jdbcType=INTEGER}, #{createName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateBy,jdbcType=INTEGER}, #{updateName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.htcs.kehaoduo.system.bean.SysAgent">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_agent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysUserId != null">
+                sys_user_id,
+            </if>
+            <if test="unionid != null">
+                unionid,
+            </if>
+            <if test="openid != null">
+                openid,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="areaCode != null">
+                area_code,
+            </if>
+            <if test="canWithdrawBalance != null">
+                can_withdraw_balance,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysUserId != null">
+                #{sysUserId,jdbcType=INTEGER},
+            </if>
+            <if test="unionid != null">
+                #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null">
+                #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="canWithdrawBalance != null">
+                #{canWithdrawBalance,jdbcType=DECIMAL},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.system.bean.SysAgent">
+        update sys_agent
+        <set>
+            <if test="sysUserId != null">
+                sys_user_id = #{sysUserId,jdbcType=INTEGER},
+            </if>
+            <if test="unionid != null">
+                unionid = #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null">
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                area_code = #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="canWithdrawBalance != null">
+                can_withdraw_balance = #{canWithdrawBalance,jdbcType=DECIMAL},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateBySysUserId" parameterType="com.htcs.kehaoduo.system.bean.SysAgent">
+        update sys_agent
+        <set>
+            <if test="unionid != null">
+                unionid = #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null">
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="areaCode != null">
+                area_code = #{areaCode,jdbcType=VARCHAR},
+            </if>
+            <if test="canWithdrawBalance != null">
+                can_withdraw_balance = #{canWithdrawBalance,jdbcType=DECIMAL},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where sys_user_id = #{sysUserId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.htcs.kehaoduo.system.bean.SysAgent">
+        UPDATE sys_agent
+        SET sys_user_id          = #{sysUserId,jdbcType=INTEGER},
+            unionid              = #{unionid,jdbcType=VARCHAR},
+            openid               = #{openid,jdbcType=VARCHAR},
+            area                 = #{area,jdbcType=VARCHAR},
+            area_code            = #{areaCode,jdbcType=VARCHAR},
+            can_withdraw_balance = #{canWithdrawBalance,jdbcType=DECIMAL},
+            logical_del          = #{logicalDel,jdbcType=TINYINT},
+            create_by            = #{createBy,jdbcType=INTEGER},
+            create_name          = #{createName,jdbcType=VARCHAR},
+            create_time          = #{createTime,jdbcType=TIMESTAMP},
+            update_by            = #{updateBy,jdbcType=INTEGER},
+            update_name          = #{updateName,jdbcType=VARCHAR},
+            update_time          = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="listAgent" resultType="map">
+        SELECT
+            su.login_name      AS loginName,
+            su.id,
+            su.create_time     AS createTime,
+            su.status,
+            su.logical_del     AS logicalDel,
+            su.user_name       AS userName,
+            su.mobile,
+            su.telephone,
+            su.email,
+            su.last_login_time AS lastLoginTime,
+            su.last_login_ip   AS lastLoginIp,
+            sa.area,
+            sa.area_code       AS areaCode,
+            saa.app_id         AS appId,
+            saa.token,
+            saa.app_secret     AS appSecret,
+            saa.aes_key        AS aesKey
+        FROM
+            sys_agent sa LEFT JOIN sys_user su ON sa.sys_user_id = su.id
+            LEFT JOIN sys_agent_appid saa ON sa.sys_user_id = saa.sys_user_id
+        WHERE
+            sa.logical_del = 0
+            <if test="nameOrTel != null and nameOrTel != ''">
+                AND (su.login_name LIKE CONCAT('%', #{nameOrTel}, '%')
+                OR su.mobile LIKE CONCAT('%', #{nameOrTel}, '%'))
+            </if>
+            <if test="beginTime != null and endTime != null">
+                AND su.create_time BETWEEN #{beginTime} AND #{endTime}
+            </if>
+    </select>
+
+    <select id="queryAgentByUserId" resultType="map">
+        SELECT
+            su.login_name      AS loginName,
+            su.id,
+            su.create_time     AS createTime,
+            su.status,
+            su.logical_del     AS logicalDel,
+            su.user_name       AS userName,
+            su.mobile,
+            su.telephone,
+            su.email,
+            su.last_login_time AS lastLoginTime,
+            su.last_login_ip   AS lastLoginIp,
+            sa.area,
+            sa.area_code       AS areaCode,
+            sa.openid          AS openid,
+            sa.can_withdraw_balance AS canWithdrawBalance,
+            saa.app_id         AS appId,
+            saa.token,
+            saa.app_secret     AS appSecret,
+            saa.aes_key        AS aesKey
+        FROM
+            sys_agent sa LEFT JOIN sys_user su ON sa.sys_user_id = su.id
+            LEFT JOIN sys_agent_appid saa ON sa.sys_user_id = saa.sys_user_id
+        WHERE
+            su.id = #{id}
+    </select>
+</mapper>

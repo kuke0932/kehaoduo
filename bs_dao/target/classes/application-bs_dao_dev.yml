@@ -1,0 +1,7 @@
+spring:
+#mysql数据库连接配置
+  datasource:
+    url: jdbc:mysql://10.10.10.10:3306/kehaoduo-free?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&allowMultiQueries=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver

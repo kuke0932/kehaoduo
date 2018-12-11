@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: common, bs_dao_dev
+#mysql数据库连接配置
+  datasource:
+    url: jdbc:mysql://101.200.33.98:33306/kehaoduo?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&allowMultiQueries=true
+    username: kehaoduo
+    password: k1h@d3h9t*c7s^
+    driver-class-name: com.mysql.jdbc.Driver
+#mybatis
+mybatis:
+  type-aliases-package: com.htcs.kehaoduo.bs.po
+  mapper-locations: classpath*:mapper/*.xml
+#分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

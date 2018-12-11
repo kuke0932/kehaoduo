@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false">
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache eternal="false" maxElementsInMemory="1000"
+		overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+		timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU" />
+
+    <cache name="__DEFAULT__" eternal="true" maxElementsInMemory="10000"
+           overflowToDisk="true" diskPersistent="true" timeToIdleSeconds="600"
+           timeToLiveSeconds="3600" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="sysUserCache" eternal="false" maxElementsInMemory="100"
+		overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="900"
+		timeToLiveSeconds="0" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+		
+	<cache name="webUserCache" eternal="false" maxElementsInMemory="1000"
+		overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="7200"
+		timeToLiveSeconds="0" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+
+	<cache name="tokenBlacklist" eternal="false" maxElementsInMemory="1000"
+		   overflowToDisk="true" diskPersistent="true" timeToIdleSeconds="7200"
+		   timeToLiveSeconds="0" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" />
+
+</ehcache>  

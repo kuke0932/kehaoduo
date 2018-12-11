@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysRoleFunctionMapper">
+    <sql id="sys_role_function_column">
+		SYS_ROLE_FUNCTION.FUNCTION_ID,
+		SYS_ROLE_FUNCTION.ROLE_ID
+	</sql>
+    <sql id="sys_role_function_property">
+		#{functionId},
+		#{roleId}
+	</sql>
+
+    <resultMap type="com.htcs.kehaoduo.system.bean.SysRoleFunction" id="SysRoleFunctionResult">
+        <result property="functionId" column="FUNCTION_ID"/>
+        <result property="roleId" column="ROLE_ID"/>
+        <result property="id" column="ID"/>
+        <result property="createTime" column="CREATE_TIME"/>
+    </resultMap>
+
+    <!-- 添加角色用户关系 -->
+    <insert id="addRoleFunction" parameterType="com.htcs.kehaoduo.system.bean.SysRoleFunction" useGeneratedKeys="true"
+            keyColumn="ID" keyProperty="id">
+        INSERT INTO SYS_ROLE_FUNCTION(
+        <include refid="sys_role_function_column"/>
+        )
+        VALUE(
+        <include refid="sys_role_function_property"/>
+        )
+    </insert>
+    <!-- 根据ID，删除授权信息-->
+    <select id="deleteRoleFunctionByRoleId" parameterType="com.htcs.kehaoduo.system.bean.SysRoleFunction">
+		DELETE FROM SYS_ROLE_FUNCTION WHERE SYS_ROLE_FUNCTION.ROLE_ID=#{roleId} 
+	</select>
+    <!-- 查询授权信息 -->
+
+    <!-- 分页查询用户列表 ，开始 -->
+    <select id="findRoleFunctionListByRoleId" parameterType="com.htcs.kehaoduo.system.bean.SysRoleFunction"
+            resultMap="SysRoleFunctionResult">
+        SELECT
+        <include refid="sys_role_function_column"/>,SYS_ROLE_FUNCTION.ID,SYS_ROLE_FUNCTION.CREATE_TIME
+        FROM SYS_ROLE_FUNCTION WHERE SYS_ROLE_FUNCTION.ROLE_ID=#{roleId}
+    </select>
+</mapper>

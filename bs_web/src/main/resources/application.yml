@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: common, common_@profileActive@, bs_dao, bs_dao_@profileActive@, bs_service, bs_service_@profileActive@, bs_controller, bs_controller_@profileActive@
+
+#日志
+logging:
+  level:
+    com.htcs.kehaoduo: debug
+  path: c:/kehaoduo/logs/bs
+
+server:
+  context-path: /bs
+  port: 8082

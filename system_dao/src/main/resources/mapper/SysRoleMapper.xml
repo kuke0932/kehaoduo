@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysRoleMapper">
+    <sql id="sys_role_column">
+		SYS_ROLE.ID,
+		SYS_ROLE.ROLE_NAME,
+		SYS_ROLE.PARENT_ID,
+		SYS_ROLE.ROLE_VALUE,
+		SYS_ROLE.ROLE_DESC,
+		SYS_ROLE.ROLE_TYPE
+	</sql>
+    <sql id="sys_role_property">
+		#{id},
+		#{roleName},
+		#{parentId},
+		#{roleValue},
+		#{roleDesc},
+		#{roleType}
+	</sql>
+
+    <resultMap type="com.htcs.kehaoduo.system.bean.SysRole" id="SysRoleResult">
+        <result property="id" column="ID"/>
+        <result property="roleName" column="ROLE_NAME"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="roleValue" column="ROLE_VALUE"/>
+        <result property="roleDesc" column="ROLE_DESC"/>
+        <result property="roleType" column="ROLE_TYPE"/>
+    </resultMap>
+
+    <!-- 添加角色 -->
+    <insert id="createSysRole" parameterType="com.htcs.kehaoduo.system.bean.SysRole"
+            useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+        INSERT INTO SYS_ROLE(
+        <include refid="sys_role_column"/>
+        )
+        VALUE(
+        <include refid="sys_role_property"/>
+        )
+    </insert>
+
+    <!-- 修改角色 -->
+    <update id="updateSysRole" parameterType="com.htcs.kehaoduo.system.bean.SysRole">
+		UPDATE SYS_ROLE SET
+		SYS_ROLE.ROLE_NAME=#{roleName},
+		SYS_ROLE.CREATE_TIME=#{createTime},
+		SYS_ROLE.PARENT_ID=#{parentId},
+		SYS_ROLE.ROLE_VALUE=#{roleValue},
+		SYS_ROLE.ROLE_DESC=#{roleDesc},
+		SYS_ROLE.ROLE_TYPE=#{roleType},
+		SYS_ROLE.LOGICAL_DEL=#{logicalDel}
+		WHERE
+		SYS_ROLE.ID=#{id}  
+	</update>
+
+
+    <!-- 根据ID，查询角色信息 -->
+    <select id="querySysRoleByRoleId" parameterType="int" resultMap="SysRoleResult">
+        SELECT
+        <include refid="sys_role_column"/>
+        FROM SYS_ROLE WHERE SYS_ROLE.ID=#{value}
+    </select>
+
+
+    <!-- 查询角色列表 ，开始 -->
+    <select id="findAllSysRole" parameterType="com.htcs.kehaoduo.system.bean.SysRole" resultMap="SysRoleResult">
+        SELECT
+        <include refid="sys_role_column"/>
+        FROM SYS_ROLE
+        <where>
+            <if test="logicalDel!=null">
+                AND SYS_ROLE.LOGICAL_DEL = #{logicalDel}
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 获取子角色列表 ，开始 -->
+    <select id="findRoleByParentId" parameterType="int" resultMap="SysRoleResult">
+        SELECT
+        <include refid="sys_role_column"/>
+        FROM SYS_ROLE
+        <where>
+            AND SYS_ROLE.PARENT_ID = #{value} AND SYS_ROLE.LOGICAL_DEL = 0
+        </where>
+    </select>
+
+
+    <!-- 根据ID，删除角色信息 -->
+    <select id="delSysRoleByRoleId" parameterType="int">
+		DELETE FROM
+		SYS_ROLE WHERE SYS_ROLE.ID=#{value}
+	</select>
+
+    <!-- 逻辑删除 -->
+    <update id="logicalDeleteRoleById" parameterType="com.htcs.kehaoduo.system.bean.SysRole">
+		UPDATE SYS_ROLE SET
+		SYS_ROLE.LOGICAL_DEL=#{logicalDel}
+		WHERE
+		SYS_ROLE.ID=#{id}  
+	</update>
+
+    <!-- 根据用户获取角色列表 -->
+    <select id="findRoleListByUserId" parameterType="int" resultMap="SysRoleResult">
+        SELECT
+        <include refid="sys_role_column"/>
+        FROM SYS_ROLE
+        <where>
+            SYS_ROLE.ID IN(
+            SELECT SYS_ROLE_USER.ROLE_ID FROM SYS_ROLE_USER
+            <where>
+                SYS_ROLE_USER.USER_ID=#{value}
+            </where>
+            ) AND LOGICAL_DEL=0
+        </where>
+    </select>
+</mapper>

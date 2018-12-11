@@ -1,0 +1,49 @@
+spring:
+  profiles:
+    active: common, dev
+
+#mysql数据库连接配置
+  datasource:
+#    url: jdbc:mysql://101.200.33.98:33306/weixin?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+#    username: qyweixin
+#    password: sjzhtcs-2015
+    url: jdbc:mysql://101.200.33.98:33306/kehaoduo?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: kehaoduo
+    password: k1h@d3h9t*c7s^
+    driver-class-name: com.mysql.jdbc.Driver
+
+#mybatis
+mybatis:
+  type-aliases-package: com.htcs.kehaoduo.system.bean
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+#日志
+logging:
+  level:
+    com.htcs.kehaoduo: debug
+    org.mybatis: debug
+    org.apache.ibatis: debug
+server:
+  context-path: /system
+  port: 8081
+
+#mapper
+#mapper:
+#  mappers: com.wr.weischool.util.MyMapper
+#  not-empty: false
+#  identity: MYSQL
+
+# 恒天公众号
+wechat:
+  mp:
+    appId: wx1b0723ab8a95d54a
+    secret: 6036488697434073fe91ddee23f7ab67
+    token: 2jo3qu4nt98234ut89
+    aesKey:

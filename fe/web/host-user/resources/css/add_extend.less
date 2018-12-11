@@ -1,0 +1,240 @@
+/**
+* ${kehaoduo}
+* @author LiuChaoqun
+* @create ${YEAR}-${MONTH}-${DAY} ${TIME}
+**/
+.other_header {
+    .draft {
+        position: absolute;
+        top: 7px;
+        right: 9px;
+        color: #fff;
+    }
+}
+
+//按钮通用样式
+.weui-btn_warn {
+    height: 45px;
+    line-height: 45px;
+    font-size: 14px;
+    margin: 20px 35px;
+    border-radius: 30px;
+}
+
+.container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 40px;
+    margin-bottom: 50px;
+    p {
+        margin-bottom: 0;
+    }
+    label {
+        font-weight: normal;
+        margin-bottom: 0;
+    }
+
+    //图文新增推广
+
+    .add_main_img {
+        margin-top: 10px
+    }
+    .add_img {
+        margin: 0;
+        .weui-media-box {
+            .weui-media-box__bd {
+                padding: 3px;
+            }
+        }
+        .weui-uploader {
+            .weui-uploader__bd {
+                margin-right: 0;
+                overflow: hidden;
+                position: relative;
+                img {
+                    position: absolute;
+                }
+                .delete_img {
+                    width: 75px;
+                    height: 75px;
+                    position: relative;
+                    cursor: pointer;
+                    z-index: 10;
+                    img {
+                        position: absolute;
+                        right: -2px;
+                        top: -1px;
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+            .weui-uploader__input-box {
+                margin-bottom: 0;
+                margin-right: 0;
+                width: 75px;
+                height: 75px;
+                .preview{
+                    width:100%;
+                    height:100%;
+                    display: none;
+                    z-index: 999;
+                    position:relative;
+                    .pre{
+                        position:absolute;
+                        width:100%;
+                        height:100%;
+                        background:url(../images/loading.gif) center no-repeat;
+                        opacity:0.9;
+                    }
+                }
+            }
+        }
+        .textarea_content {
+            width: 100%;
+            padding: 0;
+            textarea {
+                width: 100%;
+                font-size: 12px;
+                padding: 0;
+                color: #666;
+                padding-left: 15px;
+            }
+            p {
+                text-align: justify;
+                padding-left: 15px;
+            }
+        }
+    }
+
+    .text-right {
+        margin: 5px;
+        a {
+            color: #666;
+            font-size: 12px;
+            padding: 0 10px;
+            text-decoration: none;
+            img {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+    }
+    .add_btn_box {
+        background: #ddd;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 20;
+        a {
+            height: 45px;
+            font-size: 14px;
+            line-height: 45px;
+            color: #e64340
+        }
+    }
+    .add_money {
+        font-size: 14px;
+        color: #666;
+        input {
+            padding-left: 20px;
+            width: 69%;
+            border: 0;
+        }
+    }
+    //费用说明
+    .money_intro {
+        color: #f00;
+        float: right;
+        font-size: 12px;
+        margin-right: 5px;
+    }
+    //清楚浮动
+    .clear_float {
+        clear: both;
+    }
+    @media screen and (max-width: 375px) {
+        .add_money {
+            input {
+                width: 64%;
+            }
+        }
+    }
+    @media screen and (max-width: 320px) {
+        .add_money {
+            input {
+                width: 56%;
+            }
+        }
+    }
+    .add_area {
+        .weui-cells__title {
+            color: #666;
+            font-size: 12px;
+            padding: 5px 0 5px 15px;
+            span {
+                color: #f00;
+            }
+        }
+        .weui-cell_select {
+            padding: 10px 15px;
+            input {
+                width: 70%;
+                color: #999;
+                padding-left: 15px;
+            }
+        }
+    }
+    .add_who {
+        .weui-cells__title {
+            color: #666;
+            font-size: 12px;
+        }
+        font-size: 14px;
+        color: #666;
+    }
+    .add_number {
+        color: #666;
+        font-size: 14px;
+    }
+    .text_add_btn {
+        a {
+            margin: 20px 30px;
+        }
+    }
+}
+
+/*预览效果*/
+.preview {
+    .weui-cells {
+        .p_title {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .add_img {
+            .front_img{
+                width:75px;
+                height:75px;
+                overflow: hidden;
+                position: relative;
+            }
+
+        }
+        .preview_main_content {
+            margin-top: 0;
+            h4 {
+                font-size: 16px;
+                font-weight: bold;
+                text-align: left;
+                line-height: 1.5em;
+                letter-spacing: 2px;
+                padding: 0 10px;
+            }
+            p {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+

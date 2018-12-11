@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>新用户注册</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../login/resources/css/mystyle.css">
+</head>
+<body>
+<header>
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../login/resources/images/icon/back.svg" alt="">返回</a>
+    <img style="width:50%;margin: 90px auto 30px;" class="logo" src="../login/resources/images/khd.png" alt="">
+</header>
+<div class="container">
+    <form action="" id="form">
+        <div class="weui-cells weui-cells_form shop_name">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/shop.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="shopName" name="shopName" type="text" placeholder="请填写店铺名称" required>
+                </div>
+            </div>
+            <div class="weui-cell businessLinePicker">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/kind.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="businessLinePicker" name="businessLineCodes" class="weui-input" type="text" readonly
+                           placeholder="请选择经营类型"
+                           required>
+                </div>
+            </div>
+            <div class="weui-cell distPicker">
+                <div class="weui-cell__hd">
+                    <label class="weui-label"><img src="../login/resources/images/icon/address.svg" alt=""></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="distPicker" name="addressCodes" readonly class="weui-input" placeholder="请选择经营地址"
+                           required>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_warn next_step">完成注册</a>
+    </form>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="/static/js/district.js"></script>
+<script src="/static/js/businessLine.js"></script>
+
+<script>
+    $(function () {
+
+        $('.distPicker').click(function () {
+            weui.picker(allDistrict, {
+                container: 'body',
+                defaultValue: ['河北省', '石家庄市', '长安区'],
+                onConfirm: function (result) {
+                    $('#distPicker').val(result[0].label + "," + result[1].label + "," + result[2].label);
+                },
+                id: 'distPicker'
+            });
+        });
+
+        $('.businessLinePicker').click(function () {
+            weui.picker(businessLine, {
+                container: 'body',
+                defaultValue: ['餐饮食品'],
+                onConfirm: function (result) {
+                    $('#businessLinePicker').val(result[0].label);
+                },
+                id: 'businessLinePicker'
+            });
+        });
+
+
+        $('.next_step').click(function () {
+            var shopName = $('#shopName').val();
+            if (!shopName) {
+                weui.alert("请填写店铺名称！");
+                return;
+            }
+            var businessLinePicker = $('#businessLinePicker').val();
+            if (!businessLinePicker) {
+                weui.alert("请选择经营类型！");
+                return;
+            }
+            var distPicker = $('#distPicker').val();
+            if (!distPicker) {
+                weui.alert("请选择经营地址！");
+                return;
+            }
+
+            $.ajax({
+                url: '/bs/shop/addShop',
+                method: 'post',
+                data: $('#form').serialize()
+            }).done(function (data) {
+                localStorage.setItem('x-auth-token', data.data.token);
+                localStorage.setItem('userId', data.data.userId);
+                localStorage.setItem("_site", data.data.site);
+                location.href = '../host-user/text_page.html';
+            })
+        });
+
+        $('.back_btn').click(function () {
+            history.go(-1);
+        })
+    });
+
+</script>
+</body>
+</html>

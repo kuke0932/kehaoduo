@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>文字新增推广</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <link rel="stylesheet" href="../resources/css/add_extend.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">新增推广</h4>
+</header>
+<!--主体部分-->
+<div class="container" style="margin-top: 60px">
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell extend_title">
+            <div class="weui-cell__bd">
+                <input class="weui-input" id="publicityTitle" type="text" maxlength="15"
+                       placeholder="输入标题（限15字，不发送，用于区别多条内容）">
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <textarea style="height:150px;font-size:12px;color:#666;" class="weui-textarea" id="content"
+                          placeholder="请输入发送内容，严禁发送色情、暴力、宗教等违法信息；平台24小时人工巡检，一经发现，立即封号；并报送国家相关部门处理。"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="clear_float"></div>
+    <div class="weui-cells weui-cells_checkbox add_who">
+        <div class="weui-cells__title">发给谁:</div>
+        <label class="weui-cell weui-check__label" for="s11">
+            <div class="weui-cell__hd">
+                <input type="checkbox" name="checkbox" value="1" class="weui-check toUserType" id="s11" checked="checked">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <p>所有好友</p>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="s12">
+            <div class="weui-cell__hd">
+                <input type="checkbox" name="checkbox" value="2" class="weui-check toUserType" id="s12">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <p>男性好友</p>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="s13">
+            <div class="weui-cell__hd">
+                <input type="checkbox" name="checkbox" value="3" class="weui-check toUserType" id="s13">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <p>女性好友</p>
+            </div>
+        </label>
+        <label class="weui-cell weui-check__label" for="s14">
+            <div class="weui-cell__hd">
+                <input type="checkbox" name="checkbox" value="4" class="weui-check toUserType" id="s14">
+                <i class="weui-icon-checked"></i>
+            </div>
+            <div class="weui-cell__bd">
+                <p>群</p>
+            </div>
+        </label>
+    </div>
+    <div class="text_add_btn">
+        <a href="javascript:;" class="weui-btn weui-btn_warn">提交审核</a>
+    </div>
+
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/text_page/text_new_extend.js"></script>
+</body>
+</html>

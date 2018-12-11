@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.mapper.SysMoneyChangeLogMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.po.SysMoneyChangeLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sys_user_id" jdbcType="INTEGER" property="sysUserId"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="wechat_order_no" jdbcType="VARCHAR" property="wechatOrderNo"/>
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, sys_user_id, money, order_no, wechat_order_no, logical_del, create_by, create_name,
+        create_time, update_by, update_name, update_time
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.htcs.kehaoduo.po.SysMoneyChangeLog">
+        insert into sys_money_change_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysUserId != null">
+                sys_user_id,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="wechatOrderNo != null">
+                wechat_order_no,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysUserId != null">
+                #{sysUserId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatOrderNo != null">
+                #{wechatOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.po.TMoneyChangeLog">
+        update sys_money_change_log
+        <set>
+            <if test="sysUserId != null">
+                sys_user_id = #{sysUserId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatOrderNo != null">
+                wechat_order_no = #{wechatOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="sumWithDrawByUserId" resultType="decimal">
+        SELECT IFNULL(SUM(money), 0)
+        FROM
+            sys_money_change_log
+        WHERE
+            sys_user_id = #{sysUserId}
+    </select>
+
+    <select id="getWithDrawDetailByUserId" resultType="map">
+        SELECT
+        DATE_FORMAT(create_time, '%Y-%m-%d') createTime,
+        sum(money) money
+        FROM
+        sys_money_change_log
+        WHERE
+        sys_user_id = #{sysUserId}
+        <if test="beginTime != null and endTime != null">
+            AND create_time BETWEEN #{beginTime} AND #{endTime}
+        </if>
+        GROUP BY
+        createTime
+    </select>
+</mapper>

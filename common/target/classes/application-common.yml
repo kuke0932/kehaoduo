@@ -1,0 +1,25 @@
+# REDIS (RedisProperties)
+# Redis数据库索引（默认为0）
+spring:
+  redis:
+    database: 0
+# Redis服务器地址
+    host: localhost
+# Redis服务器连接端口
+    port: 6379
+# Redis服务器连接密码（默认为空）
+    password:
+# 连接池最大连接数（使用负值表示没有限制）
+    pool:
+      max-active: 8
+# 连接池最大阻塞等待时间（使用负值表示没有限制）
+      max-wait: -1
+# 连接池中的最大空闲连接
+      max-idle: 8
+# 连接池中的最小空闲连接
+      min-idle: 0
+    timeout: 0
+
+rsa:
+  public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCAchL5/X2J9I0RpzqXAdSV8e+/vI1NxRYJd+/fcXvKXlWDzh3ySbLKE1Us3Eu2OYEaN3QK48ybdEsC+oRUAz8Kdw7qIn7uuIRQmokBLZT014d8Uw+e+FabRoqG1G3SSeGBz71tXjG2+Xw+CWr/93COhgXOqnV+UXxZI11uPTtUTQIDAQAB
+  private-key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIByEvn9fYn0jRGnOpcB1JXx77+8jU3FFgl3799xe8peVYPOHfJJssoTVSzcS7Y5gRo3dArjzJt0SwL6hFQDPwp3Duoifu64hFCaiQEtlPTXh3xTD574VptGiobUbdJJ4YHPvW1eMbb5fD4Jav/3cI6GBc6qdX5RfFkjXW49O1RNAgMBAAECgYAoIv1ZDuQuurNmQ8pkK5dBb8OKN6I0HhT/ynGzcePL3eR89miXMH5k9NuV1BT4kUmNZqylRn/GR/W0rZGyKv2EkrUQy4agxaZNd1WzZ3imLYAnKkUP2DChh9oKW20lGevALA7dsuzkVWtw5hJS+auMBj+CAEm+QzFYPS9PVCuc5QJBAPD3S6G7FyZtsCt7hnVZob2Xbq/eZqM88A1REbt0sJhy5As1QE/O8O99RhUGJrNbyIwcP9O2HMZc3g6w8xlTG98CQQCIdZre06oD1JwJwhQ2ZlTDFE8pDveJ4mg6CtcL51yVKFYxDJxKCzqEDgPsgNZED+bklGNgdR7afoev792KABVTAkBSQdkLqLZKY/9TmKNZw/M2qU8bsiwPZWn84cPP3hG6uN2oBdGibN5KotUdsC/d4mMfkTUorG4+OM2E7lrONlS5AkBGsreULpFs/qABJj4WmRndIA6LNSfmlhhtyeP0VN/Qn19YdjIa4opklGZQB8f650o2rvJ1rPhZNyjRbDKZJsXlAkEAqU7RHcB8XqJRwSMcTkd5N9eeB9XORa55nKqSSdt3fUdno2wnVhUk+YA8SA7Tt8F5aby/iC94rDhz2pzFRBynsQ==

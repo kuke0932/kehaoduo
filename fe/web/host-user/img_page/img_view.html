@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>图文查看效果</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+    <link rel="stylesheet" href="../resources/css/view.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">查看效果</h4>
+</header>
+<!--主体部分-->
+<div class="container" v-cloak>
+    <div class="weui-cells view_count">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+
+                <p>扫码次数: {{scanCount > 1 ? scanCount - 1 : scanCount == 0 ? 0 : 1}}</p>
+
+                <p>有效浏览次数: {{valid}}（有效浏览）/{{allClick}}（总浏览）</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells explain">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p><span>有效浏览：</span>指用户第一次点击，并在页面停留超过3秒钟。</p>
+
+                <p><span>总浏览：</span>包含了同一个用户多次点击。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells target_look">
+        <div class="weui-cells__title">有效点击区域:</div>
+        <div class="weui-cell" v-for="(area, index) in validAreaCode">
+            <span>{{area}}</span>
+        </div>
+    </div>
+    <div class="weui-cells phone">
+        <p class="phone_num">客户电话:</p>
+        <div class="weui-cell" v-for="publicity in listPhone">
+            <div class="weui-cell__bd">
+                <p>联系电话: {{publicity.phone}}</p>
+
+                <p>客户来自: {{publicity.validAreaCode}}</p>
+
+                <p>时间: {{publicity.createTime | time}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="../resources/js/img_page/img_view.js"></script>
+</body>
+</html>

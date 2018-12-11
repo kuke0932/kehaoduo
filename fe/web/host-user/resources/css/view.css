@@ -1,0 +1,21 @@
+/**
+* ${advertiser_page}
+* @author LiuChaoqun
+* @create ${YEAR}-${MONTH}-${DAY} ${TIME}
+**/
+.container {
+  color: #666;
+}
+.container .view_count {
+  margin-bottom: 15px;
+}
+.container .explain p span {
+  color: #f00;
+}
+.container .target_look .weui-cells__title {
+  color: #666;
+  font-size: 12px;
+}
+.container .phone .phone_num {
+  padding: 10px 15px 5px;
+}

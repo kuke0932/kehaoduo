@@ -1,0 +1,62 @@
+spring:
+  profiles:
+    active: common, dev
+
+#mysql数据库连接配置
+  datasource:
+    url: jdbc:mysql://101.200.33.98:33306/kehaoduo?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE
+    username: kehaoduo
+    password: k1h@d3h9t*c7s^
+    driver-class-name: com.mysql.jdbc.Driver
+
+#mybatis
+mybatis:
+  type-aliases-package: com.htcs.kehaoduo.po
+  mapper-locations: classpath*:mapper/*.xml
+#分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+#日志
+logging:
+  level:
+    com.htcs.kehaoduo: debug
+    org.mybatis: debug
+server:
+  context-path: /bs
+  port: 8082
+
+
+publicity:
+  text:
+    fee: 2.00
+    max-to-free-month: 40
+    max-to-free-year: 80
+  scan:
+    fee: 0.08
+  forward:
+    fee: 0.12
+    user: 8
+    platform: 4
+  agentEarning: 0.65
+
+
+wechat:
+  pay:
+    appId: wx918a12e0f18e63b6
+    mchId: 1487299832
+    mchKey: 9t82134yn9t8n24y5t895ty24980tn24
+    subAppId: wx1b0723ab8a95d54a
+    subMchId: 1491060182
+    notifyUrl: http://kehaoduo.4008603637.com/bs/pay/wxNotify
+    keyPath: classpath:apiclient_cert.p12
+
+baidu:
+  api:
+    key: m02Ri4r90mia2DbOMuXh4OlRv4S7Ks5Z
+
+gaode:
+  api:
+    key: 4eeb024076ffb8d9c6f74342f1cd018e

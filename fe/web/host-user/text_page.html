@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商家宝</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+    <link rel="stylesheet" href="resources/css/mystyle.css">
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <a href="text_page/text_new_extend.html">新增推广</a>
+    <h4 class="obj_title">商家宝</h4>
+</header>
+<!--主体部分-->
+<div class="container weui-pull-to-refresh">
+    <template v-if="total != -1">
+        <div class="weui-pull-to-refresh__layer">
+            <div class='weui-pull-to-refresh__arrow'></div>
+            <div class='weui-pull-to-refresh__preloader'></div>
+            <div class="down">下拉刷新</div>
+            <div class="up">释放刷新</div>
+            <div class="refresh">正在刷新</div>
+        </div>
+        <div class="notice_img_box" v-if="total == 0">
+            <img src="resources/images/notice_img.png"/>
+            <div>
+                <a href="kehaoduo_intro.html"><img src="resources/images/oneminite.png" alt=""></a>
+            </div>
+        </div>
+        <div v-cloak v-else id="text_page" class="weui-tab__bd-item weui-tab__bd-item--active">
+            <div class="word_panel">
+                <div class="weui-panel__bd" v-for="(publicity,index) in listPublicity">
+                    <div class="header_infor">
+                        <p style="font-size: 14px;font-weight:bold">{{publicity.publicityTitle}}</p>
+                        <span>生成时间: {{publicity.createTime | time}}</span><span>发送给: {{publicity.type}}</span>
+                    </div>
+
+                    <hr>
+                    <div class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__bd">
+                            <p class="weui-media-box__desc text_content">
+                                {{publicity.content}}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="weui-flex btn_box" :data-id="publicity.id" :data-index="index">
+                        <div class="weui-flex__item beginExtend">
+                            <a href="javascript:void(0);" class="eui-btn weui-btn_mini weui-btn_default">
+                                <img src="resources/images/icon/out.svg"/>
+                                开始推广
+                            </a>
+                        </div>
+                        <div class="weui-flex__item showResult">
+                            <a href="javascript:void(0);" class="eui-btn weui-btn_mini weui-btn_default">
+                                <img src="resources/images/icon/look.svg"/>
+                                查看效果
+                            </a>
+                        </div>
+                        <div class="weui-flex__item remove">
+                            <a href="javascript:void(0);" class="eui-btn weui-btn_mini weui-btn_default">
+                                <img src="resources/images/icon/delete.svg"/>
+                                删除本条
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-loadmore" v-if="isLoading">
+                <i class="weui-loading"></i>
+                <span class="weui-loadmore__tips">正在加载</span>
+            </div>
+            <div class="weui-loadmore weui-loadmore_line" v-if="!hasMore">
+                <span class="weui-loadmore__tips">别划了，没有了</span>
+            </div>
+        </div>
+    </template>
+</div>
+<!--底部导航条-->
+<tab-footer></tab-footer>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/v-component/v-tab-footer.js"></script>
+<script src="/static/js/jquery-weui-pull-to-refresh.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="resources/js/common_load_data.js"></script>
+<script src="resources/js/text_page.js"></script>
+</body>
+</html>

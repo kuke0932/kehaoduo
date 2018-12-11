@@ -1,0 +1,77 @@
+{
+  "groups": [
+    {
+      "name": "wechat.mp",
+      "type": "com.htcs.kehaoduo.wechat.conf.WechatMpProperties",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WechatMpProperties"
+    },
+    {
+      "name": "wechat.pay",
+      "type": "com.htcs.kehaoduo.wechat.conf.WxPayProperties",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "wechat.mp.aes-key",
+      "type": "java.lang.String",
+      "description": "设置微信公众号的EncodingAESKey",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WechatMpProperties"
+    },
+    {
+      "name": "wechat.mp.app-id",
+      "type": "java.lang.String",
+      "description": "设置微信公众号的appid",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WechatMpProperties"
+    },
+    {
+      "name": "wechat.mp.secret",
+      "type": "java.lang.String",
+      "description": "设置微信公众号的app secret",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WechatMpProperties"
+    },
+    {
+      "name": "wechat.mp.token",
+      "type": "java.lang.String",
+      "description": "设置微信公众号的token",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WechatMpProperties"
+    },
+    {
+      "name": "wechat.pay.app-id",
+      "type": "java.lang.String",
+      "description": "设置微信公众号的appid",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    },
+    {
+      "name": "wechat.pay.key-path",
+      "type": "java.lang.String",
+      "description": "apiclient_cert.p12文件的绝对路径，或者如果放在项目中，请以classpath:开头指定",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    },
+    {
+      "name": "wechat.pay.mch-id",
+      "type": "java.lang.String",
+      "description": "微信支付商户号",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    },
+    {
+      "name": "wechat.pay.mch-key",
+      "type": "java.lang.String",
+      "description": "微信支付商户密钥",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    },
+    {
+      "name": "wechat.pay.sub-app-id",
+      "type": "java.lang.String",
+      "description": "服务商模式下的子商户公众账号ID，普通模式请不要配置，请在配置文件中将对应项删除",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    },
+    {
+      "name": "wechat.pay.sub-mch-id",
+      "type": "java.lang.String",
+      "description": "服务商模式下的子商户号，普通模式请不要配置，最好是请在配置文件中将对应项删除",
+      "sourceType": "com.htcs.kehaoduo.wechat.conf.WxPayProperties"
+    }
+  ],
+  "hints": []
+}

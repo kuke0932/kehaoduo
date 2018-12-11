@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: bs_controller_@profileActive@
+  http:
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 100Mb
+
+wechat:
+  pay:
+    appId: wx918a12e0f18e63b6
+    mchId: 1487299832
+    mchKey: 9t82134yn9t8n24y5t895ty24980tn24
+    subAppId: wx1b0723ab8a95d54a
+    subMchId: 1491060182
+    notifyUrl: http://kehaoduo.4008603637.com/bs/pay/wxNotify
+    keyPath: classpath:apiclient_cert.p12
+
+gaode:
+  api:
+    key: 4eeb024076ffb8d9c6f74342f1cd018e
+
+geetest:
+  geetest_id: ede52f11e93cfd01d7daec5f84bb377b
+  geetest_key: 25383a708f8acb54c2c5101443d1512d
+  newfailback: true

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.mapper.TMoneyChangeLogMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.po.TMoneyChangeLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="web_user_id" jdbcType="INTEGER" property="webUserId"/>
+        <result column="money" jdbcType="DECIMAL" property="money"/>
+        <result column="operate_type" jdbcType="TINYINT" property="operateType"/>
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="wechat_order_no" jdbcType="VARCHAR" property="wechatOrderNo"/>
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="publicity_id" jdbcType="TIMESTAMP" property="publicityId"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, web_user_id, money, operate_type, order_no, wechat_order_no, logical_del, create_by, create_name,
+        create_time, update_by, update_name, update_time, publicity_id
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_money_change_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByWechatOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_money_change_log
+        where wechat_order_no = #{wechatOrderNo,jdbcType=INTEGER}
+    </select>
+    <select id="getMoneyByCreateTime" resultType="decimal">
+        SELECT SUM(tmc.money)
+        FROM
+            t_money_change_log tmc
+            LEFT JOIN t_publicity tp ON tmc.publicity_id = tp.id
+        WHERE
+        tmc.web_user_id = #{webUserId}
+            AND tmc.operate_type = 3
+            AND tp.content_type = 1
+            AND tp.publicity_type = 1
+            AND tmc.create_time BETWEEN #{now} AND #{next}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_money_change_log
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.htcs.kehaoduo.po.TMoneyChangeLog">
+        insert into t_money_change_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                web_user_id,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="operateType != null">
+                operate_type,
+            </if>
+            <if test="publicityId != null">
+                publicity_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="wechatOrderNo != null">
+                wechat_order_no,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                #{webUserId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="operateType != null">
+                #{operateType,jdbcType=TINYINT},
+            </if>
+            <if test="publicityId != null">
+                #{publicityId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatOrderNo != null">
+                #{wechatOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.po.TMoneyChangeLog">
+        update t_money_change_log
+        <set>
+            <if test="webUserId != null">
+                web_user_id = #{webUserId,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="operateType != null">
+                operate_type = #{operateType,jdbcType=TINYINT},
+            </if>
+            <if test="publicityId != null">
+                publicity_id = #{publicityId,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatOrderNo != null">
+                wechat_order_no = #{wechatOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="getAllConsumed" resultType="map">
+        SELECT *
+        FROM
+            (
+                SELECT
+                    IFNULL(SUM(tpr.read_count), 0) consumed,
+                    tp.publicity_type              publicityType,
+                    tp.content_type                contentType
+                FROM
+                    t_publicity_result tpr
+                    RIGHT JOIN t_publicity tp ON tpr.publicity_id = tp.id
+        <if test="untilTime != null">
+            <![CDATA[tpr.create_time > #{untilTime}]]>
+        </if>
+                WHERE
+                    tp.web_user_id IN (
+                        SELECT ts.web_user_id
+                        FROM
+                            t_shop ts
+                        WHERE
+                            ts.address_codes = #{area}
+                    )
+                GROUP BY
+                    tp.publicity_type,
+                    tp.content_type
+                ORDER BY
+                    tp.publicity_type,
+                    tp.content_type
+            ) t
+        UNION ALL
+        SELECT
+            IFNULL(sum(tmcl.money), 0),
+            1,
+            1
+        FROM
+            t_money_change_log tmcl
+        RIGHT JOIN t_publicity tp ON tmcl.publicity_id = tp.id
+        <if test="untilTime != null">
+            <![CDATA[tmcl.create_time > #{untilTime}]]>
+        </if>
+        WHERE
+            tp.publicity_type = 1
+            AND tp.content_type = 1
+            AND tmcl.operate_type = 3
+            AND tmcl.web_user_id IN (
+                SELECT ts.web_user_id
+                FROM
+                    t_shop ts
+                WHERE
+                    ts.address_codes = #{area}
+            )
+    </select>
+
+    <select id="listAdvertiserConsumed" parameterType="map">
+        SELECT
+        DATE_FORMAT(tmcl.create_time,'%Y-%m-%d') createTime,
+        sum(tmcl.money) money
+        FROM t_money_change_log tmcl
+        LEFT JOIN t_shop ts ON tmcl.web_user_id = ts.web_user_id
+        LEFT JOIN t_publicity tp ON tmcl.web_user_id = tp.web_user_id
+        LEFT JOIN web_user wu ON tmcl.web_user_id = wu.id
+        <where>
+            ts.address_codes = #{area}
+            <if test="publicityType != null">
+                AND tp.publicity_type = #{publicityType}
+            </if>
+            <if test="contentType != null">
+                AND tp.content_type = #{contentType}
+            </if>
+            <if test="userName != null">
+                AND (wu.login_name LIKE CONCAT('%',#{userName},'%')
+                OR wu.user_name LIKE CONCAT('%',#{userName},'%'))
+            </if>
+            <if test="beginTime != null and endTime != null">
+                AND tmcl.create_time BETWEEN #{beginTime} AND #{endTime}
+            </if>
+        </where>
+        GROUP BY createTime
+        ORDER BY tmcl.create_time DESC
+    </select>
+</mapper>

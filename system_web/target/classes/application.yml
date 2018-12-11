@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: common, common_dev, system_dao, system_dao_dev, system_service, system_service_dev, system_controller, system_controller_dev
+
+#日志
+logging:
+  level:
+    com.htcs.kehaoduo: debug
+  path: c:/kehaoduo/logs/system
+server:
+  context-path: /system
+  port: 8081
+
+
+# 恒天公众号
+wechat:
+  mp:
+    appId: wx1b0723ab8a95d54a
+    secret: 6036488697434073fe91ddee23f7ab67
+    token: 2jo3qu4nt98234ut89
+    aesKey:

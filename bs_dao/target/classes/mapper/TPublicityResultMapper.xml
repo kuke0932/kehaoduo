@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htcs.kehaoduo.bs.mapper.TPublicityResultMapper">
+    <resultMap id="BaseResultMap" type="com.htcs.kehaoduo.bs.po.TPublicityResult">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="publicity_id" jdbcType="INTEGER" property="publicityId"/>
+        <result column="total_read_count" jdbcType="INTEGER" property="totalReadCount"/>
+        <result column="user_wechat_id" jdbcType="VARCHAR" property="userWechatId"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head_image" jdbcType="VARCHAR" property="userHeadImage"/>
+        <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime"/>
+        <result column="to_user_count" jdbcType="INTEGER" property="toUserCount"/>
+        <result column="read_count" jdbcType="INTEGER" property="readCount"/>
+        <result column="publicity_type" jdbcType="TINYINT" property="publicityType"/>
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, publicity_id, total_read_count, user_wechat_id, user_nickname, user_head_image, operate_time,
+        to_user_count, read_count, publicity_type, logical_del, create_by, create_name, create_time,
+        update_by, update_name, update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_publicity_result
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="countByPublicityId" resultType="Integer">
+        SELECT count(1)
+        FROM t_publicity_result
+        WHERE publicity_id = #{publicityId}
+    </select>
+    <select id="sumToUserCountByPublicityId" resultType="Integer">
+        SELECT sum(to_user_count)
+        FROM t_publicity_result
+        WHERE publicity_id = #{publicityId}
+    </select>
+    <!--根据广告id查询纯文本列表-->
+    <select id="listTextByPublicityId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_publicity_result
+        WHERE publicity_id = #{publicityId}
+    </select>
+    <!--根据广告id查询图文列表-->
+    <select id="listImageTextByPublicityId" resultType="java.util.Map">
+        SELECT
+        (SELECT IFNULL(count(1), 0)
+             FROM t_publicity_result
+             WHERE publicity_id = #{publicityId})                  AS scanCount,
+        (SELECT IFNULL(count(1), 0)
+             FROM t_publicity_read_log
+             WHERE publicity_id = #{publicityId} AND is_valid = 1) AS valid,
+        (SELECT IFNULL(count(1), 0)
+             FROM t_publicity_read_log
+             WHERE publicity_id = #{publicityId})                  AS allClick,
+        valid_area_code AS validAreaCode
+        FROM t_publicity
+        WHERE id = #{publicityId}
+    </select>
+    <select id="sumReadCountByPublicityId" resultType="java.lang.Integer">
+        SELECT IFNULL(SUM(read_count), 0)
+        FROM t_publicity_result
+        WHERE publicity_id = #{publicityId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM t_publicity_result
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.htcs.kehaoduo.bs.po.TPublicityResult">
+        insert into t_publicity_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="publicityId != null">
+                publicity_id,
+            </if>
+            <if test="totalReadCount != null">
+                total_read_count,
+            </if>
+            <if test="userWechatId != null">
+                user_wechat_id,
+            </if>
+            <if test="userNickname != null">
+                user_nickname,
+            </if>
+            <if test="userHeadImage != null">
+                user_head_image,
+            </if>
+            <if test="operateTime != null">
+                operate_time,
+            </if>
+            <if test="toUserCount != null">
+                to_user_count,
+            </if>
+            <if test="readCount != null">
+                read_count,
+            </if>
+            <if test="publicityType != null">
+                publicity_type,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="publicityId != null">
+                #{publicityId,jdbcType=INTEGER},
+            </if>
+            <if test="totalReadCount != null">
+                #{totalReadCount,jdbcType=INTEGER},
+            </if>
+            <if test="userWechatId != null">
+                #{userWechatId,jdbcType=VARCHAR},
+            </if>
+            <if test="userNickname != null">
+                #{userNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="userHeadImage != null">
+                #{userHeadImage,jdbcType=VARCHAR},
+            </if>
+            <if test="operateTime != null">
+                #{operateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="toUserCount != null">
+                #{toUserCount,jdbcType=INTEGER},
+            </if>
+            <if test="readCount != null">
+                #{readCount,jdbcType=INTEGER},
+            </if>
+            <if test="publicityType != null">
+                #{publicityType,jdbcType=TINYINT},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.htcs.kehaoduo.bs.po.TPublicityResult">
+        update t_publicity_result
+        <set>
+            <if test="publicityId != null">
+                publicity_id = #{publicityId,jdbcType=INTEGER},
+            </if>
+            <if test="totalReadCount != null">
+                total_read_count = #{totalReadCount,jdbcType=INTEGER},
+            </if>
+            <if test="userWechatId != null">
+                user_wechat_id = #{userWechatId,jdbcType=VARCHAR},
+            </if>
+            <if test="userNickname != null">
+                user_nickname = #{userNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="userHeadImage != null">
+                user_head_image = #{userHeadImage,jdbcType=VARCHAR},
+            </if>
+            <if test="operateTime != null">
+                operate_time = #{operateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="toUserCount != null">
+                to_user_count = #{toUserCount,jdbcType=INTEGER},
+            </if>
+            <if test="readCount != null">
+                read_count = #{readCount,jdbcType=INTEGER},
+            </if>
+            <if test="publicityType != null">
+                publicity_type = #{publicityType,jdbcType=TINYINT},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateReadCountByPublicityIdAndUserWechatId">
+        UPDATE t_publicity_result
+        SET read_count = read_count + 1
+        WHERE publicity_id = #{publicityId} AND user_wechat_id = #{userWechatId}
+    </update>
+
+    <select id="getImgReadCount" resultType="map">
+        SELECT
+        IFNULL(SUM(tpr.read_count), 0) readCount,
+        DATE_FORMAT(tpr.create_time,'%Y-%m-%d') createTime
+        FROM
+        t_publicity_result tpr
+        LEFT JOIN t_publicity tp ON tpr.publicity_id = tp.id
+        LEFT JOIN web_user wu ON tp.web_user_id = wu.id
+        <where>
+            tp.web_user_id IN (
+            SELECT
+            tu.web_user_id
+            FROM
+            t_user_ext tu,
+            sys_agent_appid saa
+            WHERE
+            saa.sys_user_id = #{sysUserId}
+            AND tu.belong_app_id = saa.app_id
+            )
+            AND tp.publicity_type = 1 AND tp.content_type = 2
+            <if test="userName != null and userName != ''">
+                AND (wu.login_name LIKE CONCAT('%',#{userName},'%')
+                OR wu.user_name LIKE CONCAT('%',#{userName},'%'))
+            </if>
+            <if test="beginTime != null and endTime != null">
+                AND tpr.create_time BETWEEN #{beginTime} AND #{endTime}
+            </if>
+        </where>
+        GROUP BY
+        createTime,
+        tp.publicity_type,
+        tp.content_type
+    </select>
+    <select id="getFriendsReadCount" resultType="map">
+        SELECT
+        IFNULL(SUM(tpr.read_count), 0) readCount,
+        DATE_FORMAT(tpr.create_time,'%Y-%m-%d') createTime
+        FROM
+        t_publicity_result tpr
+        LEFT JOIN t_publicity tp ON tpr.publicity_id = tp.id
+        LEFT JOIN web_user wu ON tp.web_user_id = wu.id
+        <where>
+            tp.web_user_id IN (
+            SELECT
+            tu.web_user_id
+            FROM
+            t_user_ext tu,
+            sys_agent_appid saa
+            WHERE
+            saa.sys_user_id = #{sysUserId}
+            AND tu.belong_app_id = saa.app_id
+            )
+            AND tp.publicity_type = 2 AND tp.content_type = 2
+            <if test="userName != null and userName != ''">
+                AND (wu.login_name LIKE CONCAT('%',#{userName},'%')
+                OR wu.user_name LIKE CONCAT('%',#{userName},'%'))
+            </if>
+            <if test="beginTime != null and endTime != null">
+                AND tpr.create_time BETWEEN #{beginTime} AND #{endTime}
+            </if>
+        </where>
+        GROUP BY
+        createTime,
+        tp.publicity_type,
+        tp.content_type
+    </select>
+
+</mapper>

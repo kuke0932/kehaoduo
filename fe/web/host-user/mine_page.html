@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商家宝</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="resources/css/mystyle.css">
+    <style type="text/css">
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<header class="other_header">
+    <h4 class="obj_title">商家宝</h4>
+</header>
+<!--主体部分-->
+<div class="container" v-cloak>
+    <div id="mine" class="weui-tab__bd-item weui-tab__bd-item--active">
+        <!--我的名字-->
+        <div class="weui-panel__bd my_names">
+            <div class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" :src="user.headImgUrl">
+                </div>
+                <div class="weui-media-box__bd name_info">
+                    <p><span v-text='user.userName || user.loginName'></span></p>
+                    <p>店铺名称: <span v-text="shop.shopName"></span></p>
+
+                    <p>经营地址: <span v-text="removeComma(shop.addressCodes)"></span></p>
+                </div>
+            </div>
+        </div>
+        <!--我的信息-->
+        <div class="weui-cells my_infro">
+            <template v-if="false">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img src="resources/images/icon/message.svg"></div>
+                    <div class="weui-cell__bd">
+                        <p>我的消息</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+            </template>
+            <a class="weui-cell weui-cell_access" href="mine_page/mine_shop.html">
+                <div class="weui-cell__hd"><img src="resources/images/icon/myshop.svg"></div>
+                <div class="weui-cell__bd">
+                    <p>我的店铺</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="mine_page/mine_submitted_check.html">
+                <div class="weui-cell__hd"><img src="resources/images/icon/check.svg"></div>
+                <div class="weui-cell__bd">
+                    <p>我提交的审核</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="mine_page/change_phone.html">
+                <div class="weui-cell__hd"><img src="resources/images/icon/phone.svg"></div>
+                <div class="weui-cell__bd">
+                    <p>更改手机号</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" :href="'mine_page/change_password.html?mobile='+user.loginName">
+                <div class="weui-cell__hd"><img src="resources/images/icon/lock.svg"></div>
+                <div class="weui-cell__bd">
+                    <p>更改密码</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <template v-if="false">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img src="resources/images/icon/application.svg"></div>
+                    <div class="weui-cell__bd">
+                        <p>异业联盟</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img src="resources/images/icon/book.svg"></div>
+                    <div class="weui-cell__bd">
+                        <p>我的课堂</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+            </template>
+            <a class="weui-cell weui-cell_access" href="mine_page/common_problem.html">
+                <div class="weui-cell__hd"><img src="resources/images/icon/question.svg"></div>
+                <div class="weui-cell__bd">
+                    <p>常见问题</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;" @click="logout()">
+                <div class="weui-cell__hd"><img src="resources/images/icon/backout.svg"></div>
+                <div class="weui-cell__bd">
+                    <p>退出登录</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+        </div>
+    </div>
+    <!--底部导航条-->
+    <tab-footer></tab-footer>
+
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script src="/static/js/v-component/v-tab-footer.js"></script>
+<script src="resources/js/host_user-mine.js"></script>
+</body>
+</html>

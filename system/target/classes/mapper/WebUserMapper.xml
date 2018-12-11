@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="WebUserMapper">
+    <sql id="web_user_column">
+		wu.id, login_name, login_pwd, salt, user_name, email, mobile, telephone, status, last_login_time,
+    last_login_ip, api_key, api_secret, wu.logical_del, wu.create_by, wu.create_name, wu.create_time,
+    wu.update_by, wu.update_name, wu.update_time, web_user_id, openid_a, openid_b, last_login_type, balance, head_img_url, unionid
+	</sql>
+    <sql id="web_user_property">
+		#{loginName,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+      #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+      #{telephone,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, #{lastLoginTime,jdbcType=TIMESTAMP},
+      #{lastLoginIp,jdbcType=VARCHAR}, #{apiKey,jdbcType=VARCHAR}, #{apiSecret,jdbcType=VARCHAR},
+      #{logicalDel,jdbcType=TINYINT}, #{createBy,jdbcType=INTEGER}, #{createName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=INTEGER}, #{updateName,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=TIMESTAMP},#{webUserId,jdbcType=INTEGER}, #{openidA,jdbcType=VARCHAR}, #{openidB,jdbcType=VARCHAR},
+      #{lastLoginType,jdbcType=TINYINT}, #{balance,jdbcType=DECIMAL},#{headImgUrl,jdbcType=VARCHAR},#{unionid,jdbcType=VARCHAR}
+	</sql>
+
+    <resultMap id="webUserResult" type="com.htcs.kehaoduo.system.bean.WebUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+        <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd" />
+        <result column="salt" jdbcType="VARCHAR" property="salt" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+        <result column="status" jdbcType="BIT" property="status" />
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
+        <result column="api_key" jdbcType="VARCHAR" property="apiKey" />
+        <result column="api_secret" jdbcType="VARCHAR" property="apiSecret" />
+        <result column="logical_del" jdbcType="TINYINT" property="logicalDel" />
+        <result column="create_by" jdbcType="INTEGER" property="createBy" />
+        <result column="create_name" jdbcType="VARCHAR" property="createName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_by" jdbcType="INTEGER" property="updateBy" />
+        <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="web_user_id" jdbcType="INTEGER" property="webUserId" />
+        <result column="openid_a" jdbcType="VARCHAR" property="openidA" />
+        <result column="openid_b" jdbcType="VARCHAR" property="openidB" />
+        <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+        <result column="last_login_type" jdbcType="TINYINT" property="lastLoginType" />
+        <result column="balance" jdbcType="DECIMAL" property="balance" />
+        <result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
+
+    </resultMap>
+
+
+    <!-- 添加用户 -->
+    <insert id="addWebUser" parameterType="com.htcs.kehaoduo.system.bean.WebUser" useGeneratedKeys="true" keyColumn="id"
+            keyProperty="id">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into web_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginName != null">
+                login_name,
+            </if>
+            <if test="loginPwd != null">
+                login_pwd,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="headImgUrl != null">
+                head_img_url,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip,
+            </if>
+            <if test="apiKey != null">
+                api_key,
+            </if>
+            <if test="apiSecret != null">
+                api_secret,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null">
+                #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="headImgUrl != null">
+                #{headImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="apiKey != null">
+                #{apiKey,jdbcType=VARCHAR},
+            </if>
+            <if test="apiSecret != null">
+                #{apiSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 添加用户 -->
+    <insert id="addWebUserExt" parameterType="com.htcs.kehaoduo.system.bean.WebUser" useGeneratedKeys="true"
+            keyColumn="id" keyProperty="id">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID() as id
+        </selectKey>
+        insert into t_user_ext
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                web_user_id,
+            </if>
+            <if test="openidA != null">
+                openid_a,
+            </if>
+            <if test="openidB != null">
+                openid_b,
+            </if>
+            <if test="unionid != null">
+                unionid,
+            </if>
+            <if test="lastLoginType != null">
+                last_login_type,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="logicalDel != null">
+                logical_del,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="webUserId != null">
+                #{webUserId,jdbcType=INTEGER},
+            </if>
+            <if test="openidA != null">
+                #{openidA,jdbcType=VARCHAR},
+            </if>
+            <if test="openidB != null">
+                #{openidB,jdbcType=VARCHAR},
+            </if>
+            <if test="unionid != null">
+                #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginType != null">
+                #{lastLoginType,jdbcType=TINYINT},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="logicalDel != null">
+                #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateWebUser" parameterType="com.htcs.kehaoduo.system.bean.WebUser">
+        update web_user
+        <set>
+            <if test="loginName != null">
+                login_name = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null">
+                login_pwd = #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="headImgUrl != null">
+                head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="apiKey != null">
+                api_key = #{apiKey,jdbcType=VARCHAR},
+            </if>
+            <if test="apiSecret != null">
+                api_secret = #{apiSecret,jdbcType=VARCHAR},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+
+    </update>
+
+    <update id="updateWebUserExt" parameterType="com.htcs.kehaoduo.system.bean.WebUser">
+        update t_user_ext
+        <set>
+            <if test="webUserId != null">
+                web_user_id = #{webUserId,jdbcType=INTEGER},
+            </if>
+            <if test="openidA != null">
+                openid_a = #{openidA,jdbcType=VARCHAR},
+            </if>
+            <if test="openidB != null">
+                openid_b = #{openidB,jdbcType=VARCHAR},
+            </if>
+            <if test="unionid != null">
+                unionid = #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="lastLoginType != null">
+                last_login_type = #{lastLoginType,jdbcType=TINYINT},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="logicalDel != null">
+                logical_del = #{logicalDel,jdbcType=TINYINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=INTEGER},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where web_user_id = #{id,jdbcType=INTEGER}
+
+
+    </update>
+
+
+    <!-- 根据ID，查询用户信息 -->
+    <select id="getWebUserById" parameterType="int" resultMap="webUserResult">
+        select
+        <include refid="web_user_column"/>
+        from  web_user wu, t_user_ext tue WHERE wu.id = #{value} and tue.web_user_id = #{value}
+    </select>
+
+    <!-- 根据ID，查询用户信息 -->
+    <select id="getWebUserByLoginName" parameterType="string" resultMap="webUserResult">
+        select
+        <include refid="web_user_column"/>
+        FROM web_user wu, t_user_ext tue  WHERE wu.id = tue.web_user_id and wu.login_name=#{value}
+    </select>
+
+    <!-- 根据ID，查询用户信息 -->
+    <select id="getWebUserByMobile" parameterType="string" resultMap="webUserResult">
+        select
+        <include refid="web_user_column"/>
+        from web_user wu, t_user_ext tue  where wu.id = tue.web_user_id and wu.mobile=#{value}
+    </select>
+
+    <!-- 根据openid，查询用户信息 -->
+    <select id="getWebUserByOpenidA" parameterType="string" resultMap="webUserResult">
+        select
+        <include refid="web_user_column"/>
+        from web_user wu, t_user_ext tue  where wu.id = tue.web_user_id and tue.openid_a=#{value}
+    </select>
+
+    <!-- 根据openid，查询用户信息 -->
+    <select id="getWebUserByOpenidB" parameterType="string" resultMap="webUserResult">
+        select
+        <include refid="web_user_column"/>
+        from web_user wu, t_user_ext tue where wu.id = tue.web_user_id and tue.openid_b=#{value}
+    </select>
+
+    <!-- 分页查询用户列表 ，开始 -->
+    <select id="findWebUserList" parameterType="com.htcs.kehaoduo.system.bean.WebUser" resultMap="webUserResult">
+        SELECT
+        <include refid="web_user_column"/>
+        FROM web_user wu, t_user_ext tue
+        <where>
+            wu.id = tue.web_user_id
+            <if test="loginName!=null and loginName!=''">
+                and <![CDATA[ login_name like concat('%',#{loginname},'%') ]]>
+            </if>
+            <if test="userName!=null and userName!=''">
+                and <![CDATA[ user_name like concat('%',#{username},'%') ]]>
+            </if>
+            <if test="email!=null and email!=''">
+                and <![CDATA[ email like concat('%',#{email},'%') ]]>
+            </if>
+            and logical_del = 0
+        </where>
+        order by sys_user.id
+    </select>
+
+    <!-- 根据ID，删除用户信息 -->
+    <delete id="deleteWebUserById" parameterType="int">
+		delete from web_user where id=#{value};
+		delete from t_user_ext where web_user_id=#{value};
+	</delete>
+
+    <!-- 逻辑删除 -->
+    <update id="logicalDeleteWebUserById" parameterType="int">
+        update web_user set logical_del=1 where id=#{value};
+        update t_user_ext set logical_del=1 where id=#{value};
+    </update>
+
+    <select id="listAdvertiser" resultType="map">
+        SELECT
+        wu.mobile,
+        ts.shop_name shopName,
+        DATE_FORMAT(ts.create_time,'%Y-%m-%d %H:%i:%s') createTime
+        FROM web_user wu LEFT JOIN t_shop ts ON wu.id = ts.web_user_id
+        <where>
+            1 = 1
+            <if test="area != null">
+                AND ts.address_codes = #{area}
+            </if>
+            <if test="advertiserName != null">
+                AND (wu.login_name LIKE CONCAT('%',#{advertiserName},'%')
+                OR wu.user_name LIKE CONCAT('%',#{advertiserName},'%'))
+            </if>
+            <if test="businessLine != null">
+                AND ts.business_line_codes = #{businessLine}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta id="viewport" name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>商家宝</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="../resources/css/mystyle.css">
+</head>
+<body>
+<header class="other_header">
+    <a href="javascript:;" class="back_btn"><img class="icon_img" src="../resources/images/icon/back.svg" alt="">返回</a>
+    <h4 class="obj_title">商家宝</h4>
+</header>
+<!--主体部分-->
+<div class="container" v-cloak>
+    <div id="friends_circle_page" class="weui-tab__bd-item weui-tab__bd-item--active">
+        <div class="friends_circle">
+            <div class="weui-panel__bd" v-for="forward in forwards">
+                <div class="header_infor">
+                    <span>生成时间: {{forward.createTime | time}}</span>
+                </div>
+                <hr>
+                <a :href="'../friends_circle_page/friends_circle_view_full.html?id='+forward.id"
+                   style="border-bottom: 1px solid #ddd;"
+                   class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd circle_img">
+                        <img class="weui-media-box__thumb" :src="forward.firstImageUrl">
+                    </div>
+                    <div class="weui-media-box__bd circle_text">
+                        <h4 class="obj_title">{{forward.publicityTitle}}</h4>
+
+                        <p class="weui-media-box__desc">
+                            {{forward.publicityIntro}}</p>
+                    </div>
+                </a>
+                <div class="header_infor">
+                    <span>获得有效点击：{{forward.readCount}}次  获得收益： {{forward.bonus}}元</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>
+<script src="//cdn.bootcss.com/vue/2.4.4/vue.min.js"></script>
+<script src="/static/js/web-ajax-setting.js"></script>
+<script>
+    $(function () {
+        $('.back_btn').click(function () {
+            history.go(-1)
+        })
+    });
+
+
+    new Vue({
+        el: '.container',
+        data: {
+            forwards: []
+        },
+        mounted: function () {
+            var that = this;
+            $.ajax({
+                url: '/bs/web/publicity/queryMyForwards'
+            }).done(function (data) {
+                that.forwards = data.data;
+            })
+        }
+    })
+    Vue.filter('time', function (value) {
+        return utils.timeStampToDate(value);
+    });
+</script>
+</body>
+</html>
